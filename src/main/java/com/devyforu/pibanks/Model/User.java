@@ -13,5 +13,5 @@ public class User {
     private String firstName;
     private String lastName;
     private Timestamp birthdayDate;
-    private Integer netMonthSalary;
+    private double netMonthSalary;
 }
