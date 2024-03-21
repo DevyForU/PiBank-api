@@ -16,7 +16,7 @@ public class AccountService {
     public void makeWithdrawal(String accountId, double amount) {
         Account account = accountDAO.getById(accountId);
         if (account != null) {
-            double availableBalance = account.getMainBalance() + account.getCreditAllow();
+            double availableBalance = account.getMainBalance();
             if (availableBalance >= amount) {
                 double newMainBalance = account.getMainBalance() - amount;
                 account.setMainBalance(newMainBalance);
@@ -33,6 +33,9 @@ public class AccountService {
                 accountDAO.update(account);
 
                 System.out.println("Withdrawal successful.");
+            }
+            else if (account.getOverDraftLimit()) {
+
             } else {
                 System.out.println("Error: Insufficient funds.");
             }
