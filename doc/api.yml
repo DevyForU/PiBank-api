@@ -626,6 +626,9 @@ components:
         id:
           type: string
           format: uuid
+        balance:
+          allOf:
+            - $ref: "#/components/schemas/Balance"
         user:
           allOf:
             - $ref: "#/components/schemas/User"
@@ -633,6 +636,9 @@ components:
           type: number
         overDraftLimit:
           type: boolean
+        transactionList:
+          type: array
+          $ref: "#/components/schemas/Transaction"
     Balance:
       type: object
       properties:
