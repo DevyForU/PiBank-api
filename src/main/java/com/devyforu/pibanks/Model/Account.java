@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Account {
     private String id;
-    private User user;
     private double creditAllow;
     private double overDraftLimit;
+    private String idUser;
 }
