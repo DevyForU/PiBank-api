@@ -20,12 +20,12 @@ public class UserService {
         return userDAO.save(toSave);
     }
 
-    public User toDelete(String id){
-        return userDAO.deleteById(id);
+    public void deleteById(String id){
+        userDAO.deleteById(id);
     }
 
-    public User update(User toUpdate){
-        return userDAO.update(toUpdate);
+    public User updateNetMonthSalaryById(String id, double netMonthSalary){
+        return userDAO.updateNetMonthSalaryById(id, netMonthSalary);
     }
 
     public User getById(String id){
