@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class Transaction {
     private Transfer transfer;
     private String label;
+    private TransactionType type;
 }
