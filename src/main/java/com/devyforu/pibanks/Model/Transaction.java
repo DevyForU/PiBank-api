@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
+    private String id;
     private Transfer transfer;
     private String label;
     private TransactionType type;
