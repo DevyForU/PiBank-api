@@ -27,7 +27,7 @@ public class UserDAO implements CrudRepository<User> {
             while (resultSet.next()) {
                 userList.add(new User(
                         (String) resultSet.getObject("id"),
-                        (String) resultSet.getObject("firsName"),
+                        (String) resultSet.getObject("firstName"),
                         (String) resultSet.getObject("lastName"),
                         resultSet.getTimestamp("birthdayDate"),
                         resultSet.getDouble("netMonthSalary")
@@ -44,9 +44,9 @@ public class UserDAO implements CrudRepository<User> {
     @Override
     public User save(User toSave) {
         String sql = """
-                INSERT INTO "user"(id, firstName, lastName, birthdayDate, netMonthSalary) VALUES(?,?,?,?,?) 
-                ON CONFLICT (id) DO UPDATE SET firstName=EXCLUDED.firstName, netMonthSalary=EXCLUDED.netMonthSalary,
-                lastName=EXCLUDED.lastName, birthdayDate=EXCLUDED.birthdayDate;
+                INSERT INTO "user"(id, firstName, lastName, birthday, net_month_salary) VALUES(?,?,?,?,?) 
+                ON CONFLICT (id) DO UPDATE SET firstName=EXCLUDED.firstName, net_month_salary=EXCLUDED.net_month_salary,
+                lastName=EXCLUDED.lastName, birthday=EXCLUDED.birthday;
                 """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -89,7 +89,7 @@ public class UserDAO implements CrudRepository<User> {
     public User update(User toUpdate) {
         String sql = """
                 UPDATE "user"
-                SET netMonthSalary=?
+                SET net_month_salary=?
                 WHERE id=?
                 """;
 
