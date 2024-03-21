@@ -5,4 +5,4 @@ create table if not exists "user_table"(
     lastname varchar ,
     birthday date not null ,
     net_month_salary double precision not null
-)
+);

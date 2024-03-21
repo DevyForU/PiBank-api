@@ -5,4 +5,4 @@ create table if not exists "transfer_table"(
     effective_date date not null ,
     registration_date date not null ,
     is_canceled boolean default false
-)
+);
