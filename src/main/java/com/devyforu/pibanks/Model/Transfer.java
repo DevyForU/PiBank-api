@@ -5,7 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-@AllArgsConstructor
+
+
 @NoArgsConstructor
 @Data
 public class Transfer {
@@ -15,4 +16,8 @@ public class Transfer {
     private Instant effectiveDate;
     private Instant registrationDate;
     private boolean isCanceled;
+
+    public Transfer(double amount) {
+        this.amount = amount;
+    }
 }
