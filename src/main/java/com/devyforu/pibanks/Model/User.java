@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class User {
     private String id;
@@ -15,4 +14,17 @@ public class User {
     private String lastName;
     private Timestamp birthdayDate;
     private double netMonthSalary;
+
+    public User(String id, String firstName, String lastName, Timestamp birthdayDate, double netMonthSalary) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdayDate = birthdayDate;
+        this.netMonthSalary = netMonthSalary;
+    }
+
+
+    public User(String id) {
+        this.id = id;
+    }
 }
