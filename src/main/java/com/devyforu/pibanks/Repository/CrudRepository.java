@@ -7,4 +7,5 @@ public interface CrudRepository <T>{
     T save(T toSave);
     T delete(T toDelete);
     T update(T toUpdate);
+    T getById(String id);
 }
