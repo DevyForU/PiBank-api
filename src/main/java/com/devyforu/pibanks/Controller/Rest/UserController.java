@@ -2,7 +2,6 @@ package com.devyforu.pibanks.Controller.Rest;
 
 import com.devyforu.pibanks.Model.User;
 import com.devyforu.pibanks.Service.UserService;
-import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,16 +24,16 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public User toDelete(@PathParam("id") String id){
-        return userService.toDelete(id);
+    public void deleteById(@PathVariable("id") String id){
+        userService.deleteById(id);
     }
-    @PutMapping
-    public User update(@RequestBody User toUpdate){
-        return userService.update(toUpdate);
+    @PutMapping("/{id}/{netMonthSalary}")
+    public User updateNetMonthSalaryById(@PathVariable("id") String id, @PathVariable("netMonthSalary") double netMonthSalary){
+        return userService.updateNetMonthSalaryById(id, netMonthSalary);
     }
 
     @GetMapping("/{id}")
-    public User getById(@PathParam("id") String id){
+    public User getById(@PathVariable("id") String id){
         return userService.getById(id);
     }
 }
