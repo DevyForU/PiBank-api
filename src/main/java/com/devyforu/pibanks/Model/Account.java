@@ -27,6 +27,10 @@ public class Account {
         this.overDraftLimit = overDraftLimit;
     }
 
+    public Account(String id) {
+        this.id = id;
+    }
+
     public double getCreditAllow() {
         return user.getNetMonthSalary()/ 3;
     }
