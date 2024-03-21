@@ -67,7 +67,7 @@ public class UserDAO implements CrudRepository<User> {
     }
 
     @Override
-    public User deleteById(String id) {
+    public void deleteById(String id) {
         String sql = """
                 DELETE from "user" where id = ?
                 """;
@@ -75,19 +75,18 @@ public class UserDAO implements CrudRepository<User> {
             statement.setObject(1, id);
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
-                User deletedUser= new User(id);
-                return deletedUser;
+                System.out.println("User "+ id +" has been deleted");
 
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        System.out.println("The user does not exist");
     }
 
 
 
-    public User update(User toUpdate) {
+    public User updateNetMonthSalaryById(String id, double netMontSalary) {
         String sql = """
                 UPDATE "user"
                 SET net_month_salary=?
@@ -95,12 +94,12 @@ public class UserDAO implements CrudRepository<User> {
                 """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setDouble(1, toUpdate.getNetMonthSalary());
-            statement.setObject(2, toUpdate.getId());
+            statement.setDouble(1, netMontSalary);
+            statement.setObject(2, id);
 
             int rowAffected = statement.executeUpdate();
             if (rowAffected > 0) {
-                return toUpdate;
+                return this.getById(id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
