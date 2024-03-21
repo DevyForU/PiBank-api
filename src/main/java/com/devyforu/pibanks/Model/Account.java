@@ -28,7 +28,7 @@ public class Account {
     }
 
     public double getCreditAllow() {
-        return mainBalance / 3;
+        return user.getNetMonthSalary()/ 3;
     }
     public boolean getOverDraftLimit(){
         return false;
