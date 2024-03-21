@@ -66,31 +66,31 @@ public class AccountDAO implements CrudRepository<Account> {
     }
 
     @Override
-    public Account delete(Account toDelete) {
+    public void deleteById(String id) {
         String sql = """
                 DELETE from "account" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setObject(1, toDelete.getId());
+            statement.setObject(1,id);
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
-                return toDelete;
+                Account deletedAccount= new Account(id);
+                System.out.println("Account deleted"+ deletedAccount);;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+
     }
 
-    @Override
-    public Account update(Account toUpdate) {
+    public Account updateBalance(Account toUpdate) {
         String sql= """
                 UPDATE "account"
-                SET overDraftLimit = ?
+                SET mainBalance = ?
                 where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setBoolean(1, toUpdate.getOverDraftLimit());
+            statement.setDouble(1, toUpdate.getMainBalance());
             statement.setObject(2, toUpdate.getId());
 
             int rowAffected = statement.executeUpdate();
@@ -102,6 +102,26 @@ public class AccountDAO implements CrudRepository<Account> {
         }
         return null;
     }
+    public Account updateTransactionList(Account toUpdate) {
+        String sql= """
+                UPDATE "account"
+                SET  = ?
+                where id = ?
+                """;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setObject(1, toUpdate.getTransactionList());
+            statement.setObject(2, toUpdate.getId());
+
+            int rowAffected = statement.executeUpdate();
+            if (rowAffected > 0) {
+                return toUpdate;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @Override
     public Account getById(String id) {
