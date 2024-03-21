@@ -22,7 +22,7 @@ public void makeWithdrawal(String accountId, double amount) {
                 double newMainBalance = account.getMainBalance() - amount;
                 account.setMainBalance(newMainBalance);
 
-                accountDAO.update(account);
+                accountDAO.updateBalance(account);
 
                 Transaction transaction = new Transaction();
                 transaction.setType(TransactionType.DEBIT);
@@ -31,7 +31,6 @@ public void makeWithdrawal(String accountId, double amount) {
 
                 account.getTransactionList().add(transaction);
 
-                accountDAO.update(account);
 
                 System.out.println("Withdrawal successful.");
             }
