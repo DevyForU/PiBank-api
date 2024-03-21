@@ -20,8 +20,8 @@ public class UserService {
         return userDAO.save(toSave);
     }
 
-    public User delete(User toDelete){
-        return userDAO.delete(toDelete);
+    public User toDelete(String id){
+        return userDAO.deleteById(id);
     }
 
     public User update(User toUpdate){

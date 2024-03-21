@@ -67,15 +67,17 @@ public class UserDAO implements CrudRepository<User> {
     }
 
     @Override
-    public User delete(User toDelete) {
+    public User deleteById(String id) {
         String sql = """
                 DELETE from "user" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setObject(1, toDelete.getId());
+            statement.setObject(1, id);
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
-                return toDelete;
+                User deletedUser= new User(id);
+                return deletedUser;
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -84,7 +86,7 @@ public class UserDAO implements CrudRepository<User> {
     }
 
 
-    @Override
+
     public User update(User toUpdate) {
         String sql = """
                 UPDATE "user"
