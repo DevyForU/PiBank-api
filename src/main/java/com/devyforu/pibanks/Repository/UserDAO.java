@@ -106,4 +106,28 @@ public class UserDAO implements CrudRepository<User> {
         }
         return null;
     }
+
+    @Override
+    public User getById(String id) {
+        String sql= """
+                Select * from "user" where id = ?
+                """;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return new User(
+                        (String) resultSet.getObject("id"),
+                        (String) resultSet.getObject("firstName"),
+                        (String) resultSet.getObject("lastName"),
+                        resultSet.getTimestamp("birthdayDate"),
+                        resultSet.getDouble("netMonthSalary")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
