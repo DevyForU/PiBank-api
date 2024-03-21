@@ -29,9 +29,8 @@ public class UserDAO implements CrudRepository<User> {
                         (String) resultSet.getObject("id"),
                         (String) resultSet.getObject("firstName"),
                         (String) resultSet.getObject("lastName"),
-                        resultSet.getTimestamp("birthdayDate"),
-                        resultSet.getDouble("netMonthSalary")
-
+                        resultSet.getTimestamp("birthday"),
+                        resultSet.getDouble("net_month_salary")
                 ));
             }
 
@@ -121,8 +120,8 @@ public class UserDAO implements CrudRepository<User> {
                         (String) resultSet.getObject("id"),
                         (String) resultSet.getObject("firstName"),
                         (String) resultSet.getObject("lastName"),
-                        resultSet.getTimestamp("birthdayDate"),
-                        resultSet.getDouble("netMonthSalary")
+                        resultSet.getTimestamp("birthday"),
+                        resultSet.getDouble("net_month_salary")
                 );
             }
         } catch (SQLException e) {
