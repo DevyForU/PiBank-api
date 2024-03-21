@@ -1,4 +1,4 @@
-create table if not exists "transaction_table"(
-    id_transfer varchar references "transfer_table"(id) not null ,
+create table if not exists "transaction"(
+    id_transfer varchar references "transfer"(id) not null ,
     label varchar
 );
