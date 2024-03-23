@@ -41,8 +41,8 @@ public class TransferDAO implements CrudRepository<Transfer>  {
     @Override
     public Transfer save(Transfer toSave) {
         String sql = """
-                INSERT INTO "transfer"(id, tranfer_reason, amount, effective_date, registration_date, is_canceled) VALUES(?,?,?,?,?,?) 
-                ON CONFLICT (id) DO UPDATE SET tranfer_reason=EXCLUDED.tranfer_reason, amount=EXCLUDED.amount,
+                INSERT INTO "transfer"(id, transfer_reason, amount, effective_date, registration_date, is_canceled) VALUES(?,?,?,?,?,?) 
+                ON CONFLICT (id) DO UPDATE SET transfer_reason=EXCLUDED.transfer_reason, amount=EXCLUDED.amount,
                effective_date=EXCLUDED.effective_date, registration_date=EXCLUDED.registration_date, is_canceled=EXCLUDED.is_canceled;
                 """;
 
@@ -86,7 +86,7 @@ public class TransferDAO implements CrudRepository<Transfer>  {
     public Transfer updateTransferReasonById(String id, String transferReason) {
         String sql = """
                 UPDATE "transfer"
-                SET tranfer_reason=?
+                SET transfer_reason=?
                 WHERE id=?
                 """;
 
