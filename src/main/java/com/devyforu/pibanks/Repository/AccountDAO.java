@@ -46,7 +46,7 @@ public class AccountDAO implements CrudRepository<Account> {
     @Override
     public Account save(Account toSave) {
         String sql = """
-                INSERT INTO accounts (id, user_id, main_balance, loans, interest_loans, credit_allow, overdraft_limit) VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO "account" (id, id_user, main_balance, loans, loans_interest, credit_allow, over_draft_limit) VALUES (?, ?, ?, ?, ?, ?, ?)
                 ;
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -86,7 +86,7 @@ public class AccountDAO implements CrudRepository<Account> {
     public Account updateBalance(Account toUpdate) {
         String sql= """
                 UPDATE "account"
-                SET mainBalance = ?
+                SET main_balance = ?
                 where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
