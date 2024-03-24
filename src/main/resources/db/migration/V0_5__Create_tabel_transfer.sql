@@ -7,4 +7,4 @@ create table if not exists "transfer"(
     reason varchar not null ,
     label varchar,
     isCanceled bool default false
-)
+);
