@@ -23,7 +23,7 @@ public class AccountDAO implements CrudRepository<Account> {
     public List<Account> findAll() {
         List<Account> accountList = new ArrayList<>();
         String sql = """
-                 SELECT * FROM "account inner join "user"
+                 SELECT * FROM account inner join "user"
                                         on account.idUser="user".id
                                         inner join bank
                                         on account.idBank=bank.id";
@@ -91,7 +91,7 @@ public class AccountDAO implements CrudRepository<Account> {
             if (rowsDeleted > 0) {
                 Account deletedAccount = new Account(id);
                 System.out.println("Account deleted" + deletedAccount);
-                ;
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
