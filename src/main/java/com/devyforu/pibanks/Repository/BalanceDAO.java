@@ -1,6 +1,7 @@
 package com.devyforu.pibanks.Repository;
 
 import com.devyforu.pibanks.Model.Account;
+import com.devyforu.pibanks.Model.Balance;
 import com.devyforu.pibanks.Model.Bank;
 import com.devyforu.pibanks.Model.User;
 import lombok.AllArgsConstructor;
@@ -15,18 +16,14 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class AccountDAO implements CrudRepository<Account> {
-
+public class BalanceDAO implements CrudRepository<Balance> {
     private Connection connection;
 
     @Override
-    public List<Account> findAll() {
-        List<Account> accountList = new ArrayList<>();
+    public List<Balance> findAll() {
+        List<Balance> balanceList = new ArrayList<>();
         String sql = """
-                 SELECT * FROM account inner join "user"
-                                        on account.idUser="user".id
-                                        inner join bank
-                                        on account.idBank=bank.id";
+                SELECT * FROM "balance" inner join "account" on balance.idAccount=account.id;
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
@@ -50,73 +47,74 @@ public class AccountDAO implements CrudRepository<Account> {
                         resultSet.getDouble("creditAllow"),
                         resultSet.getBoolean("overDraftLimit")
                 );
-                accountList.add(account);
-
+                Balance balance = new Balance(
+                        resultSet.getString("id"),
+                        resultSet.getDouble("mainBalance"),
+                        resultSet.getDouble("loans"),
+                        resultSet.getDouble("interestLoans"),
+                        account);
+                balanceList.add(balance);
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return accountList;
+        return balanceList;
     }
 
     @Override
-    public Account save(Account toSave) {
+    public Balance save(Balance toSave) {
         String sql = """
-                INSERT INTO "account" (id,credit_allow, over_draft_limit,idUser,idBank) VALUES (?,?,?,?,?)
-                ;
+                INSERT INTO "balance"(id,mainBalance,loans,interestLoans,idAccount)VALUES(?,?,?,?,?);
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, toSave.getId());
-            statement.setDouble(2, toSave.getCreditAllow());
-            statement.setBoolean(3, toSave.getOverDraftLimit());
-            statement.setString(4, toSave.getUser().getId());
-            statement.setString(5, toSave.getBank().getId());
+            statement.setDouble(2, toSave.getMainBalance());
+            statement.setDouble(3, toSave.getLoans());
+            statement.setDouble(4, toSave.getInterestLoans());
+            statement.setString(5, toSave.getAccount().getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return null;
     }
 
     @Override
     public void deleteById(String id) {
         String sql = """
-                DELETE from "account" where id = ?
+                DELETE from "balance" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setObject(1, id);
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
-                Account deletedAccount = new Account(id);
-                System.out.println("Account deleted" + deletedAccount);
+                Balance balance = new Balance(id);
+                System.out.println("Account deleted" + balance);
 
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
-    public Account getById(String id) {
+    public Balance getById(String id) {
         String sql = """
-                Select * from "account" where id = ?
+                Select * from "balance" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                Account account = new Account();
-                account.setId(resultSet.getString("id"));
-                return account;
+                Balance balance= new Balance();
+                balance.setId(resultSet.getString("id"));
+                return balance;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-
 }

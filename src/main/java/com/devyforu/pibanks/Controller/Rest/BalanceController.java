@@ -1,26 +1,25 @@
 package com.devyforu.pibanks.Controller.Rest;
 
-import com.devyforu.pibanks.Model.Account;
-import com.devyforu.pibanks.Service.AccountService;
+import com.devyforu.pibanks.Model.Balance;
+import com.devyforu.pibanks.Service.BalanceService;
+import com.devyforu.pibanks.Service.TransactionService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin
-@RequestMapping("/account")
+@RequestMapping("/balance")
 @AllArgsConstructor
-public class AccountController {
-    private AccountService service;
+public class BalanceController {
+    private BalanceService service;
 
     @GetMapping
-   public List<Account> findAll(){
+    public List<Balance> findAll(){
         return service.findAll();
     }
     @PostMapping
-    public Account save(@RequestBody Account toSave){
+    public Balance save(@RequestBody Balance toSave){
         return service.save(toSave);
     }
 
@@ -30,11 +29,9 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public Account getById(@PathVariable String id){
+    public Balance getById(@PathVariable String id){
         return service.getById(id);
     }
 
 
-
 }
-
