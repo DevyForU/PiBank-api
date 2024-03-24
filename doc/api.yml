@@ -1,0 +1,747 @@
+openapi: '3.0.2'
+info:
+  title: PiBank API
+  version: 'latest'
+servers:
+  - url: https://api.pibank.test
+tags:
+  - name: User
+  - name: Account
+  - name: Balance
+  - name: Transfer
+paths:
+  /user:
+    get:
+      tags:
+        - "User"
+      summary: "get all user"
+      operationId: getAllUser
+      responses:
+        '200':
+          description: successfully retrieved Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - "User"
+      summary: create or update a user
+      operationId: CrupdateUser
+      requestBody:
+        description: user to crupdate
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: successfully crupdate Users
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/User"
+        '400':
+          $ref: "#/components/responses/400"
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: "#/components/responses/500"
+  /user/{id}:
+    get:
+      tags:
+        - "User"
+      summary: "get user by  id"
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The identified user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - "User"
+      summary: update a user by  id
+      operationId: updateUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: user to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: successfully crupdate Users
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/User"
+        '400':
+          $ref: "#/components/responses/400"
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: "#/components/responses/500"
+    delete:
+      tags:
+        - "User"
+      summary: "delete user by  id"
+      operationId: deleteUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The identified user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /account:
+    get:
+      tags:
+        - "Account"
+      summary: "get all account"
+      operationId: getAllAccount
+      responses:
+        '200':
+          description: successfully retrieved Accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Account"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - "Account"
+      summary: create or update a account
+      operationId: CrupdateUser
+      requestBody:
+        description: account to crupdate
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: "#/components/schemas/Account"
+      responses:
+        '200':
+          description: successfully crupdate Accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/Account"
+        '400':
+          $ref: "#/components/responses/400"
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: "#/components/responses/500"
+  /account/{id}:
+    get:
+      tags:
+        - "Account"
+      summary: "get account by  id"
+      operationId: getAccountById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The identified account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - "Account"
+      summary: update account by  d
+      operationId: updateACcountById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: account to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: "#/components/schemas/Account"
+      responses:
+        '200':
+          description: successfully crupdate Users
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/Account"
+        '400':
+          $ref: "#/components/responses/400"
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: "#/components/responses/500"
+    delete:
+      tags:
+        - "Account"
+      summary: "delete user by id"
+      operationId: deleteAccoutById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The identified account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /balance:
+    get:
+      tags:
+        - "Balance"
+      summary: "get all balance"
+      operationId: getAllBalance
+      responses:
+        '200':
+          description: successfully retrieved Balance
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Balance"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    post:
+      tags:
+        - "Balance"
+      summary: create balance
+      operationId: CreateBalance
+      requestBody:
+        description: balance to create
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: "#/components/schemas/Balance"
+      responses:
+        '200':
+          description: successfully create Balance
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/Balance"
+        '400':
+          $ref: "#/components/responses/400"
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: "#/components/responses/500"
+  /balance/{userId}:
+    get:
+      tags:
+        - "Balance"
+      summary: "get balance by userID"
+      operationId: getAccountByUserId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The identified balance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balance'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - "Balance"
+      summary: update balance by  userId
+      operationId: updateBalanceByUserId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: balance to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: "#/components/schemas/Balance"
+      responses:
+        '200':
+          description: successfully update Balance
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/Balance"
+        '400':
+          $ref: "#/components/responses/400"
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: "#/components/responses/500"
+    delete:
+      tags:
+        - "Balance"
+      summary: "delete balance by Userid"
+      operationId: deleteBalanceByUserId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The identified balance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balance'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /transfer:
+    get:
+      tags:
+        - "Transfer"
+      summary: "get all transfer"
+      operationId: getAllTransfer
+      responses:
+        '200':
+          description: successfully retrieved Transfer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Transfer"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    post:
+      tags:
+        - "Transfer"
+      summary: create transfer
+      operationId: CreateTransfer
+      requestBody:
+        description: balance to transfer
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: "#/components/schemas/Transfer"
+      responses:
+        '200':
+          description: successfully create Transfer
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/Transfer"
+        '400':
+          $ref: "#/components/responses/400"
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: "#/components/responses/500"
+  /transfer/{userId}:
+    get:
+      tags:
+        - "Transfer"
+      summary: "get transfer by  id"
+      operationId: getTransferById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The identified transfer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - "Transfer"
+      summary: update transfer by  id
+      operationId: updateTransferById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: transfer to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: "#/components/schemas/Transfer"
+      responses:
+        '200':
+          description: successfully update transfer
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/Transfer"
+        '400':
+          $ref: "#/components/responses/400"
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: "#/components/responses/500"
+    delete:
+      tags:
+        - "Transfer"
+      summary: "delete transfer by id"
+      operationId: deleteTransferById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The identified transfer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthdayDate:
+          type: string
+          format: date-time
+        netMonthSalary:
+          type: number
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        balance:
+          allOf:
+            - $ref: "#/components/schemas/Balance"
+        user:
+          allOf:
+            - $ref: "#/components/schemas/User"
+        creditAllow:
+          type: number
+        overDraftLimit:
+          type: boolean
+        transactionList:
+          type: array
+          $ref: "#/components/schemas/Transaction"
+    Balance:
+      type: object
+      properties:
+        mainBalance:
+          type: number
+        loans:
+          type: number
+        loansInterest:
+          type: number
+    Transfer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        transferReason:
+          type: string
+        amount:
+          type: number
+        effectiveDate:
+          type: string
+          format: date
+        registrationDate:
+          type: string
+          format: date
+        isCanceled:
+          type: boolean
+          default: false
+    Transaction:
+      type: object
+      properties:
+        transfer:
+          allOf:
+            - $ref: "#/components/schemas/Transfer"
+        label:
+          type: string
+
+
+    Exception:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    BadRequestException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: BadRequestException
+        message: Bad request
+    NotAuthorizedException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: NotAuthorizedException
+        message: Not authorized
+    ResourceNotFoundException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: ResourceNotFoundException
+        message: Resource of type <T> identified by <I> not found
+    TooManyRequestsException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: TooManyRequestsException
+        message: Too many requests
+    InternalServerException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: InternalServerException
+        message: Unexpected error
+  responses:
+    '400':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestException'
+    '403':
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotAuthorizedException'
+    '404':
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResourceNotFoundException'
+    '429':
+      description: Too many requests to the API
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsException'
+    '500':
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerException'
