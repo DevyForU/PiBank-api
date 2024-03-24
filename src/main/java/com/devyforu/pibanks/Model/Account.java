@@ -2,27 +2,26 @@ package com.devyforu.pibanks.Model;
 
 import lombok.*;
 
-import java.util.List;
-
-
-
 @NoArgsConstructor
 @Data
 public class Account {
     private String id;
     private User user;
-    private double mainBalance;
-    private double loans;
-    private double interestLoans;
+    private Bank bank;
     private double creditAllow;
     private boolean overDraftLimit;
-    private List<Transaction> transactionList;
 
-    public Account(String id, double mainBalance, double loans, double interestLoans, double creditAllow, boolean overDraftLimit) {
+    public Account(String id, User user, double creditAllow, boolean overDraftLimit) {
         this.id = id;
-        this.mainBalance = mainBalance;
-        this.loans = loans;
-        this.interestLoans = interestLoans;
+        this.user = user;
+        this.creditAllow = creditAllow;
+        this.overDraftLimit = overDraftLimit;
+    }
+
+    public Account(String id, User user, Bank bank, double creditAllow, boolean overDraftLimit) {
+        this.id = id;
+        this.user = user;
+        this.bank = bank;
         this.creditAllow = creditAllow;
         this.overDraftLimit = overDraftLimit;
     }
@@ -37,5 +36,4 @@ public class Account {
     public boolean getOverDraftLimit(){
         return false;
     }
-
 }

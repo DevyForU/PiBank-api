@@ -1,6 +1,8 @@
 package com.devyforu.pibanks.Repository;
 
 import com.devyforu.pibanks.Model.Account;
+import com.devyforu.pibanks.Model.Bank;
+import com.devyforu.pibanks.Model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,44 +21,57 @@ public class AccountDAO implements CrudRepository<Account> {
 
     @Override
     public List<Account> findAll() {
-        List<Account> accountList=new ArrayList<>();
+        List<Account> accountList = new ArrayList<>();
         String sql = """
-                 SELECT * FROM "account";
+                 SELECT * FROM account inner join "user"
+                                        on account.idUser="user".id
+                                        inner join bank
+                                        on account.idBank=bank.id";
                 """;
-        try(PreparedStatement statement=connection.prepareStatement(sql)){
-            ResultSet resultSet= statement.executeQuery();
-            while (resultSet.next()){
-                accountList.add(new Account(
-                        (String) resultSet.getObject("id"),
-                        resultSet.getDouble("mainBalance"),
-                        resultSet.getDouble("loans"),
-                        resultSet.getDouble("interestLoans"),
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User(
+                        resultSet.getString("id"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("LastName"),
+                        resultSet.getTimestamp("birthdayDate"),
+                        resultSet.getDouble("netMonthSalary")
+                );
+                Bank bank = new Bank(
+                        resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("reference")
+                );
+                Account account = new Account(
+                        resultSet.getString("id"),
+                        user,
+                        bank,
                         resultSet.getDouble("creditAllow"),
-                        resultSet.getBoolean("allowDraftLimit")
-                ));
+                        resultSet.getBoolean("overDraftLimit")
+                );
+                accountList.add(account);
 
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return accountList;
     }
 
     @Override
     public Account save(Account toSave) {
         String sql = """
-                INSERT INTO "account" (id, id_user, main_balance, loans, loans_interest, credit_allow, over_draft_limit) VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO "account" (id,credit_allow, over_draft_limit,idUser,idBank) VALUES (?,?,?,?,?)
                 ;
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, toSave.getId());
-            statement.setString(2, toSave.getUser().getId()); // Save the user ID
-            statement.setDouble(3, toSave.getMainBalance());
-            statement.setDouble(4, toSave.getLoans());
-            statement.setDouble(5, toSave.getInterestLoans());
-            statement.setDouble(6, toSave.getCreditAllow());
-            statement.setBoolean(7, toSave.getOverDraftLimit());
+            statement.setDouble(2, toSave.getCreditAllow());
+            statement.setBoolean(3, toSave.getOverDraftLimit());
+            statement.setString(4, toSave.getUser().getId());
+            statement.setString(5, toSave.getBank().getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -71,11 +86,12 @@ public class AccountDAO implements CrudRepository<Account> {
                 DELETE from "account" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setObject(1,id);
+            statement.setObject(1, id);
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
-                Account deletedAccount= new Account(id);
-                System.out.println("Account deleted"+ deletedAccount);;
+                Account deletedAccount = new Account(id);
+                System.out.println("Account deleted" + deletedAccount);
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -83,49 +99,9 @@ public class AccountDAO implements CrudRepository<Account> {
 
     }
 
-    public Account updateBalance(Account toUpdate) {
-        String sql= """
-                UPDATE "account"
-                SET main_balance = ?
-                where id = ?
-                """;
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setDouble(1, toUpdate.getMainBalance());
-            statement.setObject(2, toUpdate.getId());
-
-            int rowAffected = statement.executeUpdate();
-            if (rowAffected > 0) {
-                return toUpdate;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public Account updateTransactionList(Account toUpdate) {
-        String sql= """
-                UPDATE "account"
-                SET  = ?
-                where id = ?
-                """;
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setObject(1, toUpdate.getTransactionList());
-            statement.setObject(2, toUpdate.getId());
-
-            int rowAffected = statement.executeUpdate();
-            if (rowAffected > 0) {
-                return toUpdate;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
     @Override
     public Account getById(String id) {
-        String sql= """
+        String sql = """
                 Select * from "account" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
