@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION get_latest_balance(account_id VARCHAR)
+CREATE OR REPLACE FUNCTION getLatestBalance(accountId VARCHAR)
 RETURNS TABLE (
     id VARCHAR,
     idAccount VARCHAR,
