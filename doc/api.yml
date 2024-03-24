@@ -363,7 +363,7 @@ paths:
       tags:
         - "Balance"
       summary: "get balance by userID"
-      operationId: getAccountByUserId
+      operationId: getBalanceByUserId
       parameters:
         - name: id
           in: path
@@ -605,6 +605,18 @@ paths:
 
 components:
   schemas:
+    Bank:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "BMOI"
+        reference:
+          type: string
+          example: "004"
     User:
       type: object
       properties:
@@ -617,7 +629,7 @@ components:
           type: string
         birthdayDate:
           type: string
-          format: date-time
+          format: date
         netMonthSalary:
           type: number
     Account:
@@ -626,19 +638,18 @@ components:
         id:
           type: string
           format: uuid
-        balance:
-          allOf:
-            - $ref: "#/components/schemas/Balance"
-        user:
-          allOf:
-            - $ref: "#/components/schemas/User"
+        accountNumber:
+          type: number
         creditAllow:
           type: number
         overDraftLimit:
           type: boolean
-        transactionList:
-          type: array
-          $ref: "#/components/schemas/Transaction"
+        user:
+          allOf:
+            - $ref: "#/components/schemas/User"
+        bank:
+          allOf:
+            - $ref: "#/components/schemas/Bank"
     Balance:
       type: object
       properties:
@@ -648,6 +659,22 @@ components:
           type: number
         loansInterest:
           type: number
+        balanceDate:
+          type: string
+          format: date
+        Account:
+          allOf:
+            - $ref: "#/components/schemas/Account"
+    Transaction:
+      type: object
+      properties:
+        label:
+          type: string
+        type:
+            type: string
+            enum:
+              - DEBIT
+              - CREDIT
     Transfer:
       type: object
       properties:
@@ -667,15 +694,6 @@ components:
         isCanceled:
           type: boolean
           default: false
-    Transaction:
-      type: object
-      properties:
-        transfer:
-          allOf:
-            - $ref: "#/components/schemas/Transfer"
-        label:
-          type: string
-
 
     Exception:
       type: object
