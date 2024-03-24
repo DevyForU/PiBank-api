@@ -5,5 +5,5 @@ create table if not exists "user"(
     lastname varchar,
     birthday date ,
     netMonthSalary double precision not null check ( netMonthSalary > 0 ),
-    check ( (current_date - birthday) >= interval '27 years')
+    check ( (current_date - birthday) >= interval '21 years')
                       );
