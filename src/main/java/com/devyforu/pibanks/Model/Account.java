@@ -18,6 +18,14 @@ public class Account {
         this.overDraftLimit = overDraftLimit;
     }
 
+    public Account(String id, User user, Bank bank, double creditAllow, boolean overDraftLimit) {
+        this.id = id;
+        this.user = user;
+        this.bank = bank;
+        this.creditAllow = creditAllow;
+        this.overDraftLimit = overDraftLimit;
+    }
+
     public Account(String id) {
         this.id = id;
     }
