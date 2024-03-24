@@ -13,4 +13,8 @@ public class Balance {
     private double loans;
     private double interestLoans;
     private Account account;
+
+    public Balance(String id) {
+        this.id = id;
+    }
 }
