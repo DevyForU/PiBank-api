@@ -11,4 +11,8 @@ public class Bank {
     private String id;
     private String name;
     private String reference;
+
+    public Bank(String id) {
+        this.id = id;
+    }
 }
