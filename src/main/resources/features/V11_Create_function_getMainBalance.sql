@@ -1,5 +1,5 @@
 
-CREATE OR REPLACE FUNCTION get_latest_balance(account_id VARCHAR)
+CREATE OR REPLACE FUNCTION get_main_balance(account_id VARCHAR)
     RETURNS DOUBLE PRECISION AS $$
 DECLARE
     latest_balance DOUBLE PRECISION;
