@@ -2,6 +2,7 @@ package com.devyforu.pibanks.Service;
 
 import com.devyforu.pibanks.Model.Account;
 import com.devyforu.pibanks.Model.BalanceHistory;
+import com.devyforu.pibanks.Model.Transfer;
 import com.devyforu.pibanks.Repository.AccountDAO;
 import com.devyforu.pibanks.Repository.BalanceHistoryDAO;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -65,6 +67,22 @@ public class AccountService {
             saveBalanceHistory(account, newMainBalance);
         } else {
             System.out.println("Insufficient funds to make the withdrawal.");
+        }
+    }
+
+    public void performTransfer(String accountNumberSender, String accountNumberReceiver, double amount, String transferReason) {
+        Account accountSender = accountDAO.getByAccountNumber(accountNumberSender);
+        Account accountReceiver = accountDAO.getByAccountNumber(accountNumberReceiver);
+
+        if (Objects.equals(accountSender.getBank().getName(), accountReceiver.getBank().getName())) {
+            if (accountSender.getMainBalance() >= amount) {
+                accountSender.setMainBalance(accountSender.getMainBalance() - amount);
+                accountReceiver.setMainBalance(accountSender.getMainBalance() + amount);
+            }
+            accountDAO.save(accountSender);
+            accountDAO.save(accountReceiver);
+            Transfer transfer=new Transfer();
+
         }
     }
 
