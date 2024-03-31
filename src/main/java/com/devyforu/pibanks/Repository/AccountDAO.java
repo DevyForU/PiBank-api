@@ -137,8 +137,22 @@ public class AccountDAO implements CrudRepository<Account> {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
+                String id_bank = resultSet.getString("id_bank");
+                String id_user = resultSet.getString("id_user");
+                Bank bank = bankDAO.getById(id_bank);
+                User user = userDAO.getById(id_user);
                 Account account = new Account();
-                account.setId(resultSet.getString("account_number"));
+                account.setId(resultSet.getString("id"));
+                account.setAccountNumber(resultSet.getString("account_number"));
+                account.setMainBalance(resultSet.getDouble("main_balance"));
+                account.setLoans(resultSet.getDouble("loans"));
+                account.setInterestLoans(resultSet.getDouble("loans_interest"));
+                account.setCreditAllow(resultSet.getDouble("credit_allow"));
+                account.setOverDraftLimit(resultSet.getBoolean("over_draft_limit"));
+                account.setInterestRateBefore7Days(resultSet.getDouble("interest_rate_before_7_days"));
+                account.setInterestRateAfter7Days(resultSet.getDouble("interest_rate_after_7_days"));
+                account.setBank(bank);
+                account.setUser(user);
                 return account;
             }
         } catch (SQLException e) {
@@ -148,7 +162,9 @@ public class AccountDAO implements CrudRepository<Account> {
     }
 
     public void updateBalance(Account account) {
-        String sql = "UPDATE accounts SET main_balance = ? WHERE account_number = ?";
+        String sql = """
+                UPDATE "account" SET main_balance = ? WHERE account_number = ?
+                """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setDouble(1, account.getMainBalance());

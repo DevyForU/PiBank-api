@@ -28,9 +28,9 @@ public class Account {
     public Account(String id, String accountNumber, double mainBalance, double loans, double interestLoans, double creditAllow, boolean overDraftLimit, double interestRateBefore7Days, double interestRateAfter7Days, User user, Bank bank) {
         this.id = id;
         this.accountNumber = accountNumber;
-        this.mainBalance = 0;
-        this.loans = 0;
-        this.interestLoans = 0;
+        this.mainBalance = mainBalance;
+        this.loans = loans;
+        this.interestLoans = interestLoans;
         this.creditAllow = user.getNetMonthSalary()/3;
         this.overDraftLimit = false;
         this.interestRateBefore7Days = 0.01;

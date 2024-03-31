@@ -14,11 +14,13 @@ public class BalanceHistory {
     private String id;
     private double mainBalance;
     private double loans;
-    private double interestLoans;
+    private double loansInterest;
     private Timestamp date;
     private Account account;
 
     public BalanceHistory(String id) {
         this.id = id;
     }
+
+
 }

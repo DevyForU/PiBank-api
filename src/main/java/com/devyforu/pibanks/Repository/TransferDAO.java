@@ -1,9 +1,7 @@
 package com.devyforu.pibanks.Repository;
 
 import com.devyforu.pibanks.Model.Account;
-import com.devyforu.pibanks.Model.Bank;
 import com.devyforu.pibanks.Model.Transfer;
-import com.devyforu.pibanks.Model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +26,6 @@ public class TransferDAO implements CrudRepository<Transfer> {
             while (resultSet.next()) {
                 String senderId = resultSet.getString("id_sender");
                 String receiverId = resultSet.getString("id_receiver");
-
                 Account senderAccount = accountDAO.getById(senderId);
                 Account receiverAccount = accountDAO.getById(receiverId);
 

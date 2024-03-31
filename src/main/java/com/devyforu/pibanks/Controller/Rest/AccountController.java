@@ -46,7 +46,7 @@ public class AccountController {
 
     }
     @PostMapping("/{accountNumber}/withdraw")
-    public ResponseEntity<String> makeWithdrawal (@PathVariable String accountNumber,@RequestParam double amount){
+    public ResponseEntity<String> makeWithdrawal (@PathVariable String accountNumber,@RequestParam(name="amount") double amount){
         try {
             service.makeWithdrawal(accountNumber, amount);
             return ResponseEntity.ok("Withdrawal successful.");

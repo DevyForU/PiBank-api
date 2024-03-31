@@ -1,3 +1,4 @@
+CREATE TYPE transaction_type AS ENUM ('CREDIT', 'DEBIT');
 create table if not exists "categorize"(
     id varchar primary key default uuid_generate_v4(),
     name varchar not null unique,

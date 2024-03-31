@@ -3,12 +3,14 @@ package com.devyforu.pibanks.Repository;
 import com.devyforu.pibanks.Model.Transaction;
 import com.devyforu.pibanks.Model.TransactionType;
 import com.devyforu.pibanks.Model.Transfer;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 @Repository
+@AllArgsConstructor
 public class TransactionDAO implements CrudRepository<Transaction> {
     private Connection connection;
 
