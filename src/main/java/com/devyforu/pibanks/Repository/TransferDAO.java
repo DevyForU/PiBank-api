@@ -1,9 +1,7 @@
 package com.devyforu.pibanks.Repository;
 
 import com.devyforu.pibanks.Model.Account;
-import com.devyforu.pibanks.Model.Bank;
 import com.devyforu.pibanks.Model.Transfer;
-import com.devyforu.pibanks.Model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +26,6 @@ public class TransferDAO implements CrudRepository<Transfer> {
             while (resultSet.next()) {
                 String senderId = resultSet.getString("id_sender");
                 String receiverId = resultSet.getString("id_receiver");
-
                 Account senderAccount = accountDAO.getById(senderId);
                 Account receiverAccount = accountDAO.getById(receiverId);
 
@@ -56,7 +53,7 @@ public class TransferDAO implements CrudRepository<Transfer> {
     @Override
     public Transfer save(Transfer toSave) {
         String sql = """
-                INSERT INTO "transfer"(id_sender, id_receiver, amount, registrationDate, effectiveDate, reason, label, is_canceled) VALUES(?,?,?,?,?,?,?,?);
+                INSERT INTO "transfer"(id_sender, id_receiver, amount, registration_date, effective_date, reason, label, is_canceled) VALUES(?,?,?,?,?,?,?,?);
                  """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -94,34 +91,12 @@ public class TransferDAO implements CrudRepository<Transfer> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("The user does not exist");
-    }
-
-
-    public Transfer updateTransferReasonById(String id, String transferReason) {
-        String sql = """
-                UPDATE "transfer"
-                SET transfer_reason=?
-                WHERE id=?
-                """;
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, id);
-            statement.setObject(2, transferReason);
-
-            int rowAffected = statement.executeUpdate();
-            if (rowAffected > 0) {
-                return this.getById(id);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        System.out.println("The transfer does not exist");
     }
 
     public Transfer getById(String id) {
         String sql = """
-                Select * where id = ?
+                Select * from "transfer"where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, id);
@@ -133,20 +108,18 @@ public class TransferDAO implements CrudRepository<Transfer> {
 
                 Account senderAccount = accountDAO.getById(senderId);
                 Account receiverAccount = accountDAO.getById(receiverId);
+                Transfer transfer=new Transfer();
+                transfer.setId(resultSet.getString("id"));
+                transfer.setReference(resultSet.getString("ref"));
+                transfer.setAmount(resultSet.getDouble("amount"));
+                transfer.setRegistrationDate(resultSet.getTimestamp("registration").toInstant());
+                transfer.setEffectiveDate(resultSet.getTimestamp("effective_date").toInstant());
+                transfer.setTransferReason(resultSet.getString("reason"));
+                transfer.setLabel(resultSet.getString("label"));
+                transfer.setCanceled(resultSet.getBoolean("is_canceled"));
+                transfer.setAccountSender(senderAccount);
+                transfer.setAccountReceiver(receiverAccount);
 
-
-                return new Transfer(
-                        resultSet.getString("id"),
-                        resultSet.getString("reference"),
-                        resultSet.getString("transfer_reason"),
-                        resultSet.getDouble("amount"),
-                        resultSet.getTimestamp("effective_date").toInstant(),
-                        resultSet.getTimestamp("registration_date").toInstant(),
-                        resultSet.getBoolean("is_canceled"),
-                        senderAccount,
-                        receiverAccount
-
-                );
             }
         } catch (SQLException e) {
             e.printStackTrace();

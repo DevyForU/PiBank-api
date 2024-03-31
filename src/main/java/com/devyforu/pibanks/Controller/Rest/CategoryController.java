@@ -1,6 +1,7 @@
 package com.devyforu.pibanks.Controller.Rest;
-import com.devyforu.pibanks.Model.Bank;
-import com.devyforu.pibanks.Service.BankService;
+
+import com.devyforu.pibanks.Model.Category;
+import com.devyforu.pibanks.Service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,20 +10,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/category")
 @AllArgsConstructor
-@RequestMapping("/bank")
-public class BankController {
-    private BankService service;
+public class CategoryController {
+    private CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<Bank>> findAll() {
-        List<Bank> bank = service.findAll();
-        return new ResponseEntity<>(bank, HttpStatus.OK);
+    public ResponseEntity<List<Category>> findAll() {
+        List<Category> category = service.findAll();
+        return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Bank> save(@RequestBody Bank toSave) {
-        Bank savedAccount = service.save(toSave);
+    public ResponseEntity<Category> save(@RequestBody Category toSave) {
+        Category savedAccount = service.save(toSave);
         return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
     }
 
@@ -33,10 +34,10 @@ public class BankController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Bank> getById(@PathVariable String id) {
-        Bank bank = service.getById(id);
-        if (bank != null) {
-            return new ResponseEntity<>(bank, HttpStatus.OK);
+    public ResponseEntity<Category> getById(@PathVariable String id) {
+        Category category = service.getById(id);
+        if (category != null) {
+            return new ResponseEntity<>(category, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

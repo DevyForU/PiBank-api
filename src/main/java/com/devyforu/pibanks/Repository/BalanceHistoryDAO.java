@@ -2,8 +2,6 @@ package com.devyforu.pibanks.Repository;
 
 import com.devyforu.pibanks.Model.Account;
 import com.devyforu.pibanks.Model.BalanceHistory;
-import com.devyforu.pibanks.Model.Bank;
-import com.devyforu.pibanks.Model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,47 +16,25 @@ import java.util.List;
 @AllArgsConstructor
 public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
     private Connection connection;
+    private AccountDAO accountDAO;
 
     @Override
     public List<BalanceHistory> findAll() {
         List<BalanceHistory> balanceHistoryList = new ArrayList<>();
         String sql = """
-                SELECT * FROM "balanceHistory" inner join "account" on balanceHistory.idAccount=account.id;
+                SELECT * FROM "balance_history";
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                User user = new User(
-                        resultSet.getString("id"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("LastName"),
-                        resultSet.getTimestamp("birthdayDate"),
-                        resultSet.getDouble("netMonthSalary")
-                );
-                Bank bank = new Bank(
-                        resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("reference")
-                );
-                Account account = new Account(
-                        resultSet.getString("id"),
-                        resultSet.getString("account_number"),
-                        resultSet.getDouble("main_balance"),
-                        resultSet.getDouble("loans"),
-                        resultSet.getDouble("interest_loans"),
-                        resultSet.getDouble("credit_allow"),
-                        resultSet.getBoolean("over_draft_limit"),
-                        resultSet.getDouble("interest_rate_before_7_days"),
-                        resultSet.getDouble("interest_rate_after_7_days"),
-                        user,
-                        bank
-                );
+                String id_account = resultSet.getString("id_account");
+                Account account= accountDAO.getById(id_account);
                 BalanceHistory balanceHistory = new BalanceHistory(
                         resultSet.getString("id"),
-                        resultSet.getDouble("mainBalance"),
+                        resultSet.getDouble("main_balance"),
                         resultSet.getDouble("loans"),
-                        resultSet.getDouble("interestLoans"),
-                        resultSet.getTimestamp("date"),
+                        resultSet.getDouble("loans_interest"),
+                        resultSet.getTimestamp("date").toInstant(),
                         account);
                 balanceHistoryList.add(balanceHistory);
             }
@@ -72,13 +48,13 @@ public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
     @Override
     public BalanceHistory save(BalanceHistory toSave) {
         String sql = """
-                INSERT INTO "balanceHistory"(mainBalance,loans,interestLoans,idAccount)VALUES(?,?,?,?);
+                INSERT INTO "balance_history"(main_balance,loans,loans_interest,id_account)VALUES(?,?,?,?);
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setDouble(2, toSave.getMainBalance());
-            statement.setDouble(3, toSave.getLoans());
-            statement.setDouble(4, toSave.getInterestLoans());
-            statement.setString(5, toSave.getAccount().getId());
+            statement.setDouble(1, toSave.getMainBalance());
+            statement.setDouble(2, toSave.getLoans());
+            statement.setDouble(3, toSave.getLoansInterest());
+            statement.setString(4, toSave.getAccount().getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -89,14 +65,14 @@ public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
 
     public void deleteById(String id) {
         String sql = """
-                DELETE from "balanceHistory" where id = ?
+                DELETE from "balance_history" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setObject(1, id);
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
                 BalanceHistory balanceHistory = new BalanceHistory(id);
-                System.out.println("Account deleted" + balanceHistory);
+                System.out.println("balance deleted" + balanceHistory);
 
             }
         } catch (SQLException e) {
@@ -107,15 +83,23 @@ public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
 
     public BalanceHistory getById(String id) {
         String sql = """
-                Select * from "balanceHistory" where id = ?
+                Select * from "balance_history" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
+                String id_account = resultSet.getString("id_account");
+                Account account= accountDAO.getById(id_account);
                 BalanceHistory balanceHistory = new BalanceHistory();
                 balanceHistory.setId(resultSet.getString("id"));
+                balanceHistory.setMainBalance(resultSet.getDouble("main_balance"));
+                balanceHistory.setLoans(resultSet.getDouble("loans"));
+                balanceHistory.setLoansInterest(resultSet.getDouble("loans_interest"));
+                balanceHistory.setDate(resultSet.getTimestamp("date").toInstant());
+                balanceHistory.setAccount(account);
+
                 return balanceHistory;
             }
         } catch (SQLException e) {

@@ -43,7 +43,8 @@ public class UserDAO implements CrudRepository<User> {
     @Override
     public User save(User toSave) {
         String sql = """
-                INSERT INTO "user"(id, first_name, last_name, birthday, net_month_salary) VALUES(?,?,?,?,?) 
+                INSERT INTO "user"
+                (id, first_name, last_name, birthday, net_month_salary) VALUES(?,?,?,?,?) ;
                 """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {

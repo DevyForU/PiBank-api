@@ -4,17 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Transaction {
+@NoArgsConstructor
+public class Category {
     private String id;
-    private Transfer Transfer;
-    private Account account;
-    private Category category;
+    private String name;
     private TransactionType type;
-    private Instant date;
-
 }

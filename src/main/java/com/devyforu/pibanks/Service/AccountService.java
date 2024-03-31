@@ -43,7 +43,7 @@ public class AccountService {
         Account account = accountDAO.getByAccountNumber(accountNumber);
         double balance = account.getMainBalance();
 
-        if (!account.isOverDraftLimit()) {
+        if (account.isOverDraftLimit()) {
             if (balance < amount && account.getCreditAllow() > 0) {
                 int paymentDelayDays = (int) Math.ceil((amount - balance) / account.getInterestLoans());
                 double interestRate;
@@ -92,8 +92,8 @@ public class AccountService {
         balanceHistory.setAccount(account);
         balanceHistory.setMainBalance(newMainBalance);
         balanceHistory.setLoans(account.getLoans());
-        balanceHistory.setInterestLoans(account.getInterestLoans());
-        balanceHistory.setDate(Timestamp.valueOf(LocalDateTime.now()));
+        balanceHistory.setLoansInterest(account.getInterestLoans());
+        balanceHistory.setDate(Instant.from(LocalDateTime.now()));
         balanceHistoryDAO.save(balanceHistory);
     }
 
