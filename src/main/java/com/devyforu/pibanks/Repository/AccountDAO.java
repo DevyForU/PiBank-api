@@ -33,7 +33,7 @@ public class AccountDAO implements CrudRepository<Account> {
                 String id_bank = resultSet.getString("id_bank");
                 String id_user = resultSet.getString("id_user");
                 Bank bank = bankDAO.getById(id_bank);
-                User user= userDAO.getById(id_user);
+                User user = userDAO.getById(id_user);
                 Account account = new Account(
                         resultSet.getString("id"),
                         resultSet.getString("account_number"),
@@ -102,9 +102,24 @@ public class AccountDAO implements CrudRepository<Account> {
             statement.setString(1, accountNumber);
             ResultSet resultSet = statement.executeQuery();
 
+
             if (resultSet.next()) {
+                String id_bank = resultSet.getString("id_bank");
+                String id_user = resultSet.getString("id_user");
+                Bank bank = bankDAO.getById(id_bank);
+                User user = userDAO.getById(id_user);
                 Account account = new Account();
+                account.setId(resultSet.getString("id"));
                 account.setAccountNumber(resultSet.getString("account_number"));
+                account.setMainBalance(resultSet.getDouble("main_balance"));
+                account.setLoans(resultSet.getDouble("loans"));
+                account.setInterestLoans(resultSet.getDouble("loans_interest"));
+                account.setCreditAllow(resultSet.getDouble("credit_allow"));
+                account.setOverDraftLimit(resultSet.getBoolean("over_draft_limit"));
+                account.setInterestRateBefore7Days(resultSet.getDouble("interest_rate_before_7_days"));
+                account.setInterestRateAfter7Days(resultSet.getDouble("interest_rate_after_7_days"));
+                account.setBank(bank);
+                account.setUser(user);
                 return account;
             }
         } catch (SQLException e) {
