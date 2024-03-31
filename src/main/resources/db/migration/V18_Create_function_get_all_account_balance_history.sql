@@ -1,7 +1,6 @@
-CREATE OR REPLACE FUNCTION get_all_accounts_balance_history()
+CREATE OR REPLACE FUNCTION get_all_accounts_balance_history(account_id_param VARCHAR)
 RETURNS TABLE (
     id VARCHAR,
-    id_account VARCHAR,
     main_balance DOUBLE PRECISION,
     loans DOUBLE PRECISION,
     loans_interest DOUBLE PRECISION,
@@ -11,14 +10,15 @@ BEGIN
     RETURN QUERY 
     SELECT
         id,
-        id_account,
         main_balance,
         loans,
         loans_interest,
         date
     FROM
         balance_history
+    WHERE
+        id_account = account_id_param
     ORDER BY
-        id_account, date DESC;
+        date DESC;
 END;
 $$ LANGUAGE plpgsql;
