@@ -2,8 +2,6 @@ package com.devyforu.pibanks.Repository;
 
 import com.devyforu.pibanks.Model.Account;
 import com.devyforu.pibanks.Model.BalanceHistory;
-import com.devyforu.pibanks.Model.Bank;
-import com.devyforu.pibanks.Model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 

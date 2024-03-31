@@ -21,6 +21,5 @@ public class Transfer {
     private Account accountSender;
     private Account accountReceiver;
 
-    public Transfer(String id, String reference, String transferReason, double amount, Instant effectiveDate, Instant registrationDate, boolean isCanceled, Account senderAccount, Account receiverAccount) {
     }
-}
+
