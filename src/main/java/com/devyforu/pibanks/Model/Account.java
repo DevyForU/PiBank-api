@@ -31,7 +31,7 @@ public class Account {
         this.mainBalance = 0;
         this.loans = 0;
         this.interestLoans = 0;
-        this.creditAllow = user.getNetMonthSalary() / 3;
+        this.creditAllow = user.getNetMonthSalary()/3;
         this.overDraftLimit = false;
         this.interestRateBefore7Days = 0.01;
         this.interestRateAfter7Days = 0.02;
@@ -44,19 +44,7 @@ public class Account {
         this.accountNumber = accountNumber;
     }
 
-    public double getCreditAllow() {
-        return user.getNetMonthSalary() / 3;
-    }
 
-    public boolean getOverDraftLimit() {
-        return false;
-    }
 
-    public double getInterestRateBefore7Days() {
-        return 0.01;
-    }
 
-    public double getInterestRateAfter7Days() {
-        return 0.02;
-    }
 }

@@ -18,37 +18,28 @@ import java.util.List;
 public class AccountDAO implements CrudRepository<Account> {
 
     private Connection connection;
+    private BankDAO bankDAO;
+    private UserDAO userDAO;
 
     @Override
     public List<Account> findAll() {
         List<Account> accountList = new ArrayList<>();
         String sql = """
-                 SELECT * FROM account inner join "user"
-                                        on account.id_user="user".id
-                                        inner join bank
-                                        on account.id_bank=bank.id;
+                 SELECT * FROM account;
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                User user = new User(
-                        resultSet.getString("id"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        resultSet.getTimestamp("birthday_date"),
-                        resultSet.getDouble("net_month_salary")
-                );
-                Bank bank = new Bank(
-                        resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("reference")
-                );
+                String id_bank = resultSet.getString("id_bank");
+                String id_user = resultSet.getString("id_user");
+                Bank bank = bankDAO.getById(id_bank);
+                User user= userDAO.getById(id_user);
                 Account account = new Account(
                         resultSet.getString("id"),
                         resultSet.getString("account_number"),
                         resultSet.getDouble("main_balance"),
                         resultSet.getDouble("loans"),
-                        resultSet.getDouble("interest_loans"),
+                        resultSet.getDouble("loans_interest"),
                         resultSet.getDouble("credit_allow"),
                         resultSet.getBoolean("over_draft_limit"),
                         resultSet.getDouble("interest_rate_before_7_days"),
@@ -113,6 +104,25 @@ public class AccountDAO implements CrudRepository<Account> {
 
             if (resultSet.next()) {
                 Account account = new Account();
+                account.setAccountNumber(resultSet.getString("account_number"));
+                return account;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Account getById(String id) {
+        String sql = """
+                Select * from "account" where id = ?
+                """;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Account account = new Account();
                 account.setId(resultSet.getString("account_number"));
                 return account;
             }
@@ -120,6 +130,22 @@ public class AccountDAO implements CrudRepository<Account> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void updateBalance(Account account) {
+        String sql = "UPDATE accounts SET main_balance = ? WHERE account_number = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDouble(1, account.getMainBalance());
+            statement.setString(2, account.getAccountNumber());
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("The balance has been updated. ");
+            }
+        } catch (SQLException e) {
+            System.out.println("Balance can't be updated : " + e.getMessage());
+        }
     }
 
 }

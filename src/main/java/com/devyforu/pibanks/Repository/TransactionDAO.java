@@ -22,8 +22,8 @@ public class TransactionDAO implements CrudRepository<Transaction> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 transactionList.add(new Transaction (
-                        (String) resultSet.getObject("id"),
-                        (String) resultSet.getObject("id_transfer"),
+                        resultSet.getString("id"),
+                        null,
                         resultSet.getString("label"),
                         (TransactionType) resultSet.getObject("type")
                 ));
@@ -45,7 +45,7 @@ public class TransactionDAO implements CrudRepository<Transaction> {
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setObject(1, toSave.getId());
-            statement.setObject(2, toSave.getIdTransfer());
+            statement.setObject(2, toSave.getTransfer());
             statement.setString(3, toSave.getLabel());
             statement.setObject(4, toSave.getType());
             int rowAffected = statement.executeUpdate();
@@ -59,7 +59,7 @@ public class TransactionDAO implements CrudRepository<Transaction> {
         return null;
     }
 
-    @Override
+
     public void deleteById(String id) {
         String sql = """
                 DELETE from "transaction" where id = ?
@@ -98,7 +98,7 @@ public class TransactionDAO implements CrudRepository<Transaction> {
         return null;
     }
 
-    @Override
+
     public Transaction getById(String id) {
         String sql= """
                 Select * from "transaction" where id = ?
@@ -109,8 +109,8 @@ public class TransactionDAO implements CrudRepository<Transaction> {
 
             if (resultSet.next()) {
                 return new Transaction(
-                        (String) resultSet.getObject("id"),
-                        (String) resultSet.getObject("id_transfer"),
+                         resultSet.getString("id"),
+                         null,
                         resultSet.getString("label"),
                         (TransactionType) resultSet.getObject("type")
                 );

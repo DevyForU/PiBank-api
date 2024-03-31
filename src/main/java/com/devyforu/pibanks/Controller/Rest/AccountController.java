@@ -1,6 +1,7 @@
 package com.devyforu.pibanks.Controller.Rest;
 
 import com.devyforu.pibanks.Model.Account;
+import com.devyforu.pibanks.Model.Transfer;
 import com.devyforu.pibanks.Service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,21 @@ public class AccountController {
             return ResponseEntity.ok("Withdrawal successful.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient funds to make the withdrawal.");
+        }
+    }
+    @PostMapping("/performTransfer")
+    public ResponseEntity<String> performTransfer(@RequestBody Transfer transfer) {
+        try {
+            service.performTransfer(
+                    transfer.getAccountSender().getAccountNumber(),
+                    transfer.getAccountReceiver().getAccountNumber(),
+                    transfer.getAmount(),
+                    transfer.getTransferReason(),
+                    transfer.getEffectiveDate(),
+                    transfer.getRegistrationDate());
+            return ResponseEntity.ok("Transfer successful");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Transfer failed: " + e.getMessage());
         }
     }
 }
