@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### MOCKDATA GENERATOR ###
+**/src/main/resources/db/generateMockData
