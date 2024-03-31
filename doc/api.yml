@@ -210,11 +210,11 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: "#/components/responses/500"
-  /account/{id}:
+  /account/{accountNumber}:
     get:
       tags:
         - "Account"
-      summary: "get account by  id"
+      summary: "get account by  account number"
       operationId: getAccountById
       parameters:
         - name: id
@@ -242,8 +242,8 @@ paths:
     put:
       tags:
         - "Account"
-      summary: update account by  d
-      operationId: updateACcountById
+      summary: update account by account number
+      operationId: updateAccountById
       parameters:
         - name: id
           in: path
@@ -261,7 +261,7 @@ paths:
                 $ref: "#/components/schemas/Account"
       responses:
         '200':
-          description: successfully crupdate Users
+          description: successfully update account
           content:
             application/json:
               schema:
@@ -281,8 +281,8 @@ paths:
     delete:
       tags:
         - "Account"
-      summary: "delete user by id"
-      operationId: deleteAccoutById
+      summary: "delete user by account number"
+      operationId: deleteAccountById
       parameters:
         - name: id
           in: path
@@ -306,62 +306,10 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /balance:
+  /account/{userId}/balance:
     get:
       tags:
-        - "Balance"
-      summary: "get all balance"
-      operationId: getAllBalance
-      responses:
-        '200':
-          description: successfully retrieved Balance
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Balance"
-        '400':
-          $ref: "#/components/responses/400"
-        '500':
-          $ref: "#/components/responses/500"
-    post:
-      tags:
-        - "Balance"
-      summary: create balance
-      operationId: CreateBalance
-      requestBody:
-        description: balance to create
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              items:
-                $ref: "#/components/schemas/Balance"
-      responses:
-        '200':
-          description: successfully create Balance
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  $ref: "#/components/schemas/Balance"
-        '400':
-          $ref: "#/components/responses/400"
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: "#/components/responses/500"
-  /balance/{userId}:
-    get:
-      tags:
-        - "Balance"
+        - "Account"
       summary: "get balance by userID"
       operationId: getBalanceByUserId
       parameters:
@@ -376,7 +324,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Balance'
+                $ref: '#/components/schemas/Account'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -387,73 +335,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    put:
-      tags:
-        - "Balance"
-      summary: update balance by  userId
-      operationId: updateBalanceByUserId
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: balance to update
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              items:
-                $ref: "#/components/schemas/Balance"
-      responses:
-        '200':
-          description: successfully update Balance
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  $ref: "#/components/schemas/Balance"
-        '400':
-          $ref: "#/components/responses/400"
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: "#/components/responses/500"
-    delete:
-      tags:
-        - "Balance"
-      summary: "delete balance by Userid"
-      operationId: deleteBalanceByUserId
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The identified balance
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Balance'
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+
   /transfer:
     get:
       tags:
@@ -644,13 +526,19 @@ components:
           type: number
         overDraftLimit:
           type: boolean
+        mainBalance:
+          type: number
+        loans:
+          type: number
+        interestLoans:
+          type: number
         user:
           allOf:
             - $ref: "#/components/schemas/User"
         bank:
           allOf:
             - $ref: "#/components/schemas/Bank"
-    Balance:
+    BalanceHistory:
       type: object
       properties:
         mainBalance:
@@ -659,7 +547,7 @@ components:
           type: number
         loansInterest:
           type: number
-        balanceDate:
+        date:
           type: string
           format: date
         Account:

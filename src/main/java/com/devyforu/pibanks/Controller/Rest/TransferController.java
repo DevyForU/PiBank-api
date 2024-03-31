@@ -9,7 +9,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/tranfer")
+@RequestMapping("/transfer")
 public class TransferController {
     private TransferService transferService;
 
@@ -37,4 +37,6 @@ public class TransferController {
     public Transfer getById(@PathVariable("id") String id){
         return transferService.getById(id);
     }
+
+
 }

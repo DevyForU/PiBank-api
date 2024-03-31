@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Transaction {
     private String id;
-    private String idTransfer;
+    private Transfer Transfer;
     private String label;
     private TransactionType type;
 }

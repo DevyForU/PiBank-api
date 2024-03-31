@@ -29,7 +29,7 @@ public class BankDAO implements CrudRepository<Bank> {
                 bankList.add(new Bank(
                         resultSet.getString("id"),
                         resultSet.getString("name"),
-                        resultSet.getString("reference")
+                        resultSet.getString("ref")
                 ));
             }
         } catch (SQLException e) {
@@ -42,12 +42,11 @@ public class BankDAO implements CrudRepository<Bank> {
     @Override
     public Bank save(Bank toSave) {
         String sql = """
-                INSERT INTO "bank"(id,name,reference) VALUE(?,?,?)
+                INSERT INTO "bank"(name,ref) VALUE(?,?)
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, toSave.getId());
-            statement.setString(2, toSave.getName());
-            statement.setString(3, toSave.getReference());
+            statement.setString(1, toSave.getName());
+            statement.setString(2, toSave.getReference());
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -56,7 +55,7 @@ public class BankDAO implements CrudRepository<Bank> {
         return null;
     }
 
-    @Override
+
     public void deleteById(String id) {
         String sql = """
                 DELETE from "bank" where id = ?
@@ -73,10 +72,10 @@ public class BankDAO implements CrudRepository<Bank> {
         }
     }
 
-    @Override
+
     public Bank getById(String id) {
         String sql = """
-                Select * from "bank" where id = ?
+                Select id,name,ref from "bank" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, id);
@@ -85,6 +84,8 @@ public class BankDAO implements CrudRepository<Bank> {
             if (resultSet.next()) {
                 Bank bank = new Bank();
                 bank.setId(resultSet.getString("id"));
+                bank.setName(resultSet.getString("name"));
+                bank.setReference(resultSet.getString("ref"));
                 return bank;
             }
         } catch (SQLException e) {

@@ -1,8 +1,7 @@
 package com.devyforu.pibanks.Controller.Rest;
 
-import com.devyforu.pibanks.Model.Balance;
+import com.devyforu.pibanks.Model.BalanceHistory;
 import com.devyforu.pibanks.Service.BalanceService;
-import com.devyforu.pibanks.Service.TransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +14,11 @@ public class BalanceController {
     private BalanceService service;
 
     @GetMapping
-    public List<Balance> findAll(){
+    public List<BalanceHistory> findAll(){
         return service.findAll();
     }
     @PostMapping
-    public Balance save(@RequestBody Balance toSave){
+    public BalanceHistory save(@RequestBody BalanceHistory toSave){
         return service.save(toSave);
     }
 
@@ -29,7 +28,7 @@ public class BalanceController {
     }
 
     @GetMapping("/{id}")
-    public Balance getById(@PathVariable String id){
+    public BalanceHistory getById(@PathVariable String id){
         return service.getById(id);
     }
 

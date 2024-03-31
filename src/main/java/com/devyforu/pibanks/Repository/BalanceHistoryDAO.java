@@ -1,7 +1,7 @@
 package com.devyforu.pibanks.Repository;
 
 import com.devyforu.pibanks.Model.Account;
-import com.devyforu.pibanks.Model.Balance;
+import com.devyforu.pibanks.Model.BalanceHistory;
 import com.devyforu.pibanks.Model.Bank;
 import com.devyforu.pibanks.Model.User;
 import lombok.AllArgsConstructor;
@@ -16,14 +16,14 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class BalanceDAO implements CrudRepository<Balance> {
+public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
     private Connection connection;
 
     @Override
-    public List<Balance> findAll() {
-        List<Balance> balanceList = new ArrayList<>();
+    public List<BalanceHistory> findAll() {
+        List<BalanceHistory> balanceHistoryList = new ArrayList<>();
         String sql = """
-                SELECT * FROM "balance" inner join "account" on balance.idAccount=account.id;
+                SELECT * FROM "balanceHistory" inner join "account" on balanceHistory.idAccount=account.id;
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
@@ -42,33 +42,39 @@ public class BalanceDAO implements CrudRepository<Balance> {
                 );
                 Account account = new Account(
                         resultSet.getString("id"),
+                        resultSet.getString("account_number"),
+                        resultSet.getDouble("main_balance"),
+                        resultSet.getDouble("loans"),
+                        resultSet.getDouble("interest_loans"),
+                        resultSet.getDouble("credit_allow"),
+                        resultSet.getBoolean("over_draft_limit"),
+                        resultSet.getDouble("interest_rate_before_7_days"),
+                        resultSet.getDouble("interest_rate_after_7_days"),
                         user,
-                        bank,
-                        resultSet.getDouble("creditAllow"),
-                        resultSet.getBoolean("overDraftLimit")
+                        bank
                 );
-                Balance balance = new Balance(
+                BalanceHistory balanceHistory = new BalanceHistory(
                         resultSet.getString("id"),
                         resultSet.getDouble("mainBalance"),
                         resultSet.getDouble("loans"),
                         resultSet.getDouble("interestLoans"),
+                        resultSet.getTimestamp("date"),
                         account);
-                balanceList.add(balance);
+                balanceHistoryList.add(balanceHistory);
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return balanceList;
+        return balanceHistoryList;
     }
 
     @Override
-    public Balance save(Balance toSave) {
+    public BalanceHistory save(BalanceHistory toSave) {
         String sql = """
-                INSERT INTO "balance"(id,mainBalance,loans,interestLoans,idAccount)VALUES(?,?,?,?,?);
+                INSERT INTO "balanceHistory"(mainBalance,loans,interestLoans,idAccount)VALUES(?,?,?,?);
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, toSave.getId());
             statement.setDouble(2, toSave.getMainBalance());
             statement.setDouble(3, toSave.getLoans());
             statement.setDouble(4, toSave.getInterestLoans());
@@ -80,17 +86,17 @@ public class BalanceDAO implements CrudRepository<Balance> {
         return null;
     }
 
-    @Override
+
     public void deleteById(String id) {
         String sql = """
-                DELETE from "balance" where id = ?
+                DELETE from "balanceHistory" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setObject(1, id);
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
-                Balance balance = new Balance(id);
-                System.out.println("Account deleted" + balance);
+                BalanceHistory balanceHistory = new BalanceHistory(id);
+                System.out.println("Account deleted" + balanceHistory);
 
             }
         } catch (SQLException e) {
@@ -98,23 +104,45 @@ public class BalanceDAO implements CrudRepository<Balance> {
         }
     }
 
-    @Override
-    public Balance getById(String id) {
+
+    public BalanceHistory getById(String id) {
         String sql = """
-                Select * from "balance" where id = ?
+                Select * from "balanceHistory" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                Balance balance= new Balance();
-                balance.setId(resultSet.getString("id"));
-                return balance;
+                BalanceHistory balanceHistory = new BalanceHistory();
+                balanceHistory.setId(resultSet.getString("id"));
+                return balanceHistory;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
+//    //public BalanceHistory getAccountBalanceHistoryByAccountNumber(String accountNumber){
+//
+//        //NEED A SQL FUNCTION
+//    String sql= """
+////                SELECT
+////                    "account".account_number,
+////                    "balance_history".main_balance,
+////                    "account".loans,
+////                    "account".loans_interest,
+////                    "balance_history".date
+////                FROM
+////                    "balance_history"
+////                JOIN
+////                    "account" ON balance_history.id_account = "account".id
+////                JOIN
+////                    "bank" ON account.id_bank ="bank".id
+////                JOIN
+////                    "user" ON "account".id_user = "user".id
+////
+////                WHERE "account".account_number='ACC001';
+////                """;
+//    }
 }

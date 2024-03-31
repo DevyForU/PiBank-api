@@ -1,8 +1,10 @@
 package com.devyforu.pibanks.Controller.Rest;
 
 import com.devyforu.pibanks.Model.Account;
+import com.devyforu.pibanks.Model.Transfer;
 import com.devyforu.pibanks.Service.AccountService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,25 +18,56 @@ public class AccountController {
     private AccountService service;
 
     @GetMapping
-   public List<Account> findAll(){
-        return service.findAll();
+    public ResponseEntity<List<Account>> findAll() {
+        List<Account> accounts = service.findAll();
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
+
     @PostMapping
-    public Account save(@RequestBody Account toSave){
-        return service.save(toSave);
+    public ResponseEntity<Account> save(@RequestBody Account toSave) {
+        Account savedAccount = service.save(toSave);
+        return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable String id){
-        service.deleteById(id);
+    @DeleteMapping("/{accountNumber}")
+    public ResponseEntity<Void> deleteById(@PathVariable String accountNumber) {
+        service.deleteById(accountNumber);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{id}")
-    public Account getById(@PathVariable String id){
-        return service.getById(id);
+    @GetMapping("/{accountNumber}")
+    public ResponseEntity<Account> getById(@PathVariable String accountNumber) {
+        Account account = service.getById(accountNumber);
+        if (account != null) {
+            return new ResponseEntity<>(account, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
-
-
-
+    @PostMapping("/{accountNumber}/withdraw")
+    public ResponseEntity<String> makeWithdrawal (@PathVariable String accountNumber,@RequestParam double amount){
+        try {
+            service.makeWithdrawal(accountNumber, amount);
+            return ResponseEntity.ok("Withdrawal successful.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient funds to make the withdrawal.");
+        }
+    }
+    @PostMapping("/performTransfer")
+    public ResponseEntity<String> performTransfer(@RequestBody Transfer transfer) {
+        try {
+            service.performTransfer(
+                    transfer.getAccountSender().getAccountNumber(),
+                    transfer.getAccountReceiver().getAccountNumber(),
+                    transfer.getAmount(),
+                    transfer.getTransferReason(),
+                    transfer.getEffectiveDate(),
+                    transfer.getRegistrationDate());
+            return ResponseEntity.ok("Transfer successful");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Transfer failed: " + e.getMessage());
+        }
+    }
 }
 
