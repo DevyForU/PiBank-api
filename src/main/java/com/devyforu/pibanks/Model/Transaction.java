@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -15,6 +16,6 @@ public class Transaction {
     private Account account;
     private Category category;
     private TransactionType type;
-    private Date date;
+    private Instant date;
 
 }

@@ -34,7 +34,7 @@ public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
                         resultSet.getDouble("main_balance"),
                         resultSet.getDouble("loans"),
                         resultSet.getDouble("loans_interest"),
-                        resultSet.getTimestamp("date"),
+                        resultSet.getTimestamp("date").toInstant(),
                         account);
                 balanceHistoryList.add(balanceHistory);
             }
@@ -72,7 +72,7 @@ public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
                 BalanceHistory balanceHistory = new BalanceHistory(id);
-                System.out.println("Account deleted" + balanceHistory);
+                System.out.println("balance deleted" + balanceHistory);
 
             }
         } catch (SQLException e) {
@@ -97,7 +97,7 @@ public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
                 balanceHistory.setMainBalance(resultSet.getDouble("main_balance"));
                 balanceHistory.setLoans(resultSet.getDouble("loans"));
                 balanceHistory.setLoansInterest(resultSet.getDouble("loans_interest"));
-                balanceHistory.setDate(resultSet.getTimestamp("date"));
+                balanceHistory.setDate(resultSet.getTimestamp("date").toInstant());
                 balanceHistory.setAccount(account);
 
                 return balanceHistory;

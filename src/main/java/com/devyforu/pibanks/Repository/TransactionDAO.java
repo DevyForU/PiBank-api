@@ -37,7 +37,7 @@ public class TransactionDAO implements CrudRepository<Transaction> {
                         account,
                         category,
                         (TransactionType) resultSet.getObject("type"),
-                        resultSet.getDate("date")
+                        resultSet.getTimestamp("date").toInstant()
                 );
                 transactionList.add(transaction);
             }
@@ -110,7 +110,7 @@ public class TransactionDAO implements CrudRepository<Transaction> {
                 transaction.setTransfer(transfer);
                 transaction.setCategory(category);
                 transaction.setType((TransactionType) resultSet.getObject("type"));
-                transaction.setDate(resultSet.getDate("date"));
+                transaction.setDate(resultSet.getTimestamp("date").toInstant());
 
             }
         } catch (SQLException e) {

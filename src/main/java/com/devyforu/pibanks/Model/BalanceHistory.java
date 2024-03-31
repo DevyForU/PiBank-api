@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Date;
 
 @Data
@@ -15,7 +16,7 @@ public class BalanceHistory {
     private double mainBalance;
     private double loans;
     private double loansInterest;
-    private Timestamp date;
+    private Instant date;
     private Account account;
 
     public BalanceHistory(String id) {

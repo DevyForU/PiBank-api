@@ -60,7 +60,7 @@ public class AccountDAO implements CrudRepository<Account> {
     @Override
     public Account save(Account toSave) {
         String sql = """
-                INSERT INTO "account" (account_number,idUser,idBank) VALUES (?,?,?)
+                INSERT INTO "account" (account_number,id_user,id_bank) VALUES (?,?,?)
                 ;
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -172,10 +172,10 @@ public class AccountDAO implements CrudRepository<Account> {
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("The balance has been updated. ");
+                System.out.println("The balance of the account has been updated. ");
             }
         } catch (SQLException e) {
-            System.out.println("Balance can't be updated : " + e.getMessage());
+            System.out.println("Balance of the account can't be updated : " + e.getMessage());
         }
     }
 

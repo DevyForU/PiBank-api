@@ -42,7 +42,7 @@ public class BankDAO implements CrudRepository<Bank> {
     @Override
     public Bank save(Bank toSave) {
         String sql = """
-                INSERT INTO "bank"(name,ref) VALUE(?,?)
+                INSERT INTO "bank"(name,ref) VALUES(?,?)
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, toSave.getName());
@@ -65,7 +65,7 @@ public class BankDAO implements CrudRepository<Bank> {
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
                 Bank deletedBank = new Bank(id);
-                System.out.println("Account deleted" + deletedBank);
+                System.out.println("bank deleted" + deletedBank);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
