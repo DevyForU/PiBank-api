@@ -3,6 +3,8 @@ package com.devyforu.pibanks.Controller.Rest;
 import com.devyforu.pibanks.Model.User;
 import com.devyforu.pibanks.Service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,29 +13,34 @@ import java.util.List;
 @RequestMapping("/user")
 @AllArgsConstructor
 public class UserController {
-    private UserService userService;
+    private UserService service;
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.findAll();
+    public ResponseEntity<List<User>> findAll() {
+        List<User> user = service.findAll();
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping
-    public User save(@RequestBody User toSave){
-        return userService.save(toSave);
+    public ResponseEntity<User> save(@RequestBody User toSave) {
+        User savedAccount = service.save(toSave);
+        return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable("id") String id){
-        userService.deleteById(id);
-    }
-    @PutMapping("/{id}/{netMonthSalary}")
-    public User updateNetMonthSalaryById(@PathVariable("id") String id, @PathVariable("netMonthSalary") double netMonthSalary){
-        return userService.updateNetMonthSalaryById(id, netMonthSalary);
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
+        service.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{id}")
-    public User getById(@PathVariable("id") String id){
-        return userService.getById(id);
+    public ResponseEntity<User> getById(@PathVariable String id) {
+        User user = service.getById(id);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
 }

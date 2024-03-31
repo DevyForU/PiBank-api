@@ -3,6 +3,8 @@ package com.devyforu.pibanks.Controller.Rest;
 import com.devyforu.pibanks.Model.BalanceHistory;
 import com.devyforu.pibanks.Service.BalanceService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,23 +16,32 @@ public class BalanceController {
     private BalanceService service;
 
     @GetMapping
-    public List<BalanceHistory> findAll(){
-        return service.findAll();
+    public ResponseEntity<List<BalanceHistory>> findAll() {
+        List<BalanceHistory> balanceHistory = service.findAll();
+        return new ResponseEntity<>(balanceHistory, HttpStatus.OK);
     }
+
     @PostMapping
-    public BalanceHistory save(@RequestBody BalanceHistory toSave){
-        return service.save(toSave);
+    public ResponseEntity<BalanceHistory> save(@RequestBody BalanceHistory toSave) {
+        BalanceHistory savedAccount = service.save(toSave);
+        return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable String id){
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
         service.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{id}")
-    public BalanceHistory getById(@PathVariable String id){
-        return service.getById(id);
-    }
+    public ResponseEntity<BalanceHistory> getById(@PathVariable String id) {
+        BalanceHistory balanceHistory = service.getById(id);
+        if (balanceHistory != null) {
+            return new ResponseEntity<>(balanceHistory, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
+    }
 
 }
