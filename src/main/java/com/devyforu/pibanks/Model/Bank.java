@@ -1,11 +1,9 @@
 package com.devyforu.pibanks.Model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Bank {
     private String id;
@@ -14,5 +12,11 @@ public class Bank {
 
     public Bank(String id) {
         this.id = id;
+    }
+
+    public Bank(String id, String name, String reference) {
+        this.id = id;
+        this.name = name;
+        this.reference = reference;
     }
 }

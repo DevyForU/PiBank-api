@@ -4,17 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Balance {
+public class BalanceHistory {
     private String id;
     private double mainBalance;
     private double loans;
-    private double interestLoans;
+    private double loansInterest;
+    private Instant date;
     private Account account;
 
-    public Balance(String id) {
+    public BalanceHistory(String id) {
         this.id = id;
     }
+
+
 }

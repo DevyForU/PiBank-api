@@ -27,8 +27,8 @@ public class UserDAO implements CrudRepository<User> {
             while (resultSet.next()) {
                 userList.add(new User(
                         (String) resultSet.getObject("id"),
-                        (String) resultSet.getObject("firstName"),
-                        (String) resultSet.getObject("lastName"),
+                        (String) resultSet.getObject("first_name"),
+                        (String) resultSet.getObject("last_name"),
                         resultSet.getTimestamp("birthday"),
                         resultSet.getDouble("net_month_salary")
                 ));
@@ -43,9 +43,8 @@ public class UserDAO implements CrudRepository<User> {
     @Override
     public User save(User toSave) {
         String sql = """
-                INSERT INTO "user"(id, firstName, lastName, birthday, net_month_salary) VALUES(?,?,?,?,?) 
-                ON CONFLICT (id) DO UPDATE SET firstName=EXCLUDED.firstName, net_month_salary=EXCLUDED.net_month_salary,
-                lastName=EXCLUDED.lastName, birthday=EXCLUDED.birthday;
+                INSERT INTO "user"
+                (id, first_name, last_name, birthday, net_month_salary) VALUES(?,?,?,?,?) ;
                 """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -65,8 +64,6 @@ public class UserDAO implements CrudRepository<User> {
         }
         return null;
     }
-
-    @Override
     public void deleteById(String id) {
         String sql = """
                 DELETE from "user" where id = ?
@@ -107,7 +104,7 @@ public class UserDAO implements CrudRepository<User> {
         return null;
     }
 
-    @Override
+
     public User getById(String id) {
         String sql= """
                 Select * from "user" where id = ?
@@ -119,8 +116,8 @@ public class UserDAO implements CrudRepository<User> {
             if (resultSet.next()) {
                 return new User(
                         (String) resultSet.getObject("id"),
-                        (String) resultSet.getObject("firstName"),
-                        (String) resultSet.getObject("lastName"),
+                        (String) resultSet.getObject("first_name"),
+                        (String) resultSet.getObject("last_name"),
                         resultSet.getTimestamp("birthday"),
                         resultSet.getDouble("net_month_salary")
                 );

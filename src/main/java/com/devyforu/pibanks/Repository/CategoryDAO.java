@@ -1,6 +1,7 @@
 package com.devyforu.pibanks.Repository;
 
-import com.devyforu.pibanks.Model.Bank;
+import com.devyforu.pibanks.Model.Category;
+import com.devyforu.pibanks.Model.TransactionType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,41 +14,45 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class BankDAO implements CrudRepository<Bank> {
+public class CategoryDAO implements CrudRepository<Category> {
     private Connection connection;
 
 
     @Override
-    public List<Bank> findAll() {
-        List<Bank> bankList = new ArrayList<>();
+    public List<Category> findAll() {
+        List<Category> categoryList = new ArrayList<>();
         String sql = """
-                SELECT * from "bank";
+                Select * from "category"
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                bankList.add(new Bank(
+                Category category = new Category(
                         resultSet.getString("id"),
                         resultSet.getString("name"),
-                        resultSet.getString("ref")
-                ));
+                        (TransactionType) resultSet.getObject("type")
+                );
+                categoryList.add(category);
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return bankList;
-
+        return categoryList;
     }
 
     @Override
-    public Bank save(Bank toSave) {
+    public Category save(Category toSave) {
         String sql = """
-                INSERT INTO "bank"(name,ref) VALUES(?,?)
+                Insert into "category" (name,type) values (?,?);
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, toSave.getName());
-            statement.setString(2, toSave.getReference());
-            statement.executeUpdate();
+            statement.setString(1, toSave.getId());
+            statement.setObject(2, toSave.getType());
+            int rowAffected = statement.executeUpdate();
+            if (rowAffected > 0) {
+                return toSave;
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -55,38 +60,37 @@ public class BankDAO implements CrudRepository<Bank> {
         return null;
     }
 
-
     public void deleteById(String id) {
         String sql = """
-                DELETE from "bank" where id = ?
+                DELETE from "category" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setObject(1, id);
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
-                Bank deletedBank = new Bank(id);
-                System.out.println("bank deleted" + deletedBank);
+                System.out.println("Category" + id + " has been deleted");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("The category does not exist");
     }
 
 
-    public Bank getById(String id) {
+    public Category getById(String id) {
         String sql = """
-                Select id,name,ref from "bank" where id = ?
+                Select * from "category" where id = ?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                Bank bank = new Bank();
-                bank.setId(resultSet.getString("id"));
-                bank.setName(resultSet.getString("name"));
-                bank.setReference(resultSet.getString("ref"));
-                return bank;
+                Category category = new Category();
+                category.setId(resultSet.getString("id"));
+                category.setName(resultSet.getString("name"));
+                category.setType((TransactionType) resultSet.getObject("type"));
+                return category;
             }
         } catch (SQLException e) {
             e.printStackTrace();
