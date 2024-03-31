@@ -5,5 +5,5 @@ create table if not exists "transaction"(
     id_account varchar references "account"(id) not null ,
     date timestamp without time zone default now(),
     type transaction_type not null,
-    id_category varchar references "category"(id)
+    id_categorize varchar references "category"(id)
 );
