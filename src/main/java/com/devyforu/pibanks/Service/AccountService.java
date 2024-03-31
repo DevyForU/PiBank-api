@@ -93,7 +93,7 @@ public class AccountService {
         balanceHistory.setMainBalance(newMainBalance);
         balanceHistory.setLoans(account.getLoans());
         balanceHistory.setLoansInterest(account.getInterestLoans());
-        balanceHistory.setDate(Timestamp.valueOf(LocalDateTime.now()));
+        balanceHistory.setDate(Instant.from(LocalDateTime.now()));
         balanceHistoryDAO.save(balanceHistory);
     }
 

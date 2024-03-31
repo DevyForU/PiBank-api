@@ -1,7 +1,6 @@
 package com.devyforu.pibanks.Repository;
 
 import com.devyforu.pibanks.Model.Category;
-import com.devyforu.pibanks.Model.Transaction;
 import com.devyforu.pibanks.Model.TransactionType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
