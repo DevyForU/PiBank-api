@@ -20,6 +20,9 @@ BEGIN
         "transfer" tr
     INNER JOIN
         "transaction" t ON tr.id = t.id_transfer
+    INNER JOIN
+        "account" a ON a.account_number = account_number_param
+                      AND (tr.id_sender = a.id OR tr.id_receiver = a.id)
     LEFT JOIN LATERAL (
         SELECT main_balance
         FROM "balance_history" bh
@@ -28,9 +31,6 @@ BEGIN
         ORDER BY bh.date DESC
         LIMIT 1
     ) bh ON true
-    INNER JOIN
-        "account" a ON a.account_number = account_number_param
-                      AND (tr.id_sender = a.id OR tr.id_receiver = a.id)
     WHERE
         a.account_number = account_number_param
     ORDER BY
