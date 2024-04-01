@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION account_statements(id_account_param varchar)
+CREATE OR REPLACE FUNCTION account_statements(account_number varchar)
 RETURNS TABLE (
     date timestamp,
     reference varchar,
@@ -18,12 +18,13 @@ BEGIN
         bh.main_balance AS solde
     FROM
         "transfer" tr
+    INNER JOIN "transaction" t ON tr.id = t.id_transfer
+                            AND (t.id_account = account_number OR tr.id_sender = account_number OR tr.id_receiver = account_number)
+
     INNER JOIN
-        "transaction" t ON tr.id = t.id_transfer
-    INNER JOIN
-        "balance_history" bh ON t.date >= bh.date AND bh.id_account = id_account_param
+        "balance_history" bh ON t.date >= bh.date AND bh.id_account = account_number
     WHERE
-        t.id_account = id_account_param
+        t.id_account = account_number
     ORDER BY
         t.date DESC;
 END;
