@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION get_details_by_account_number(account_number varchar) 
+CREATE OR REPLACE FUNCTION get_details_by_account_number(account_number_param varchar)
 RETURNS TABLE (
     account_number varchar,
     main_balance double precision,
@@ -23,6 +23,6 @@ BEGIN
     JOIN
         "user" ON "account".id_user = "user".id
     WHERE
-        "account".account_number = account_number;
+        "account".account_number = account_number_param;
 END;
 $$ LANGUAGE plpgsql;
