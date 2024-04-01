@@ -1,10 +1,10 @@
-CREATE OR REPLACE FUNCTION get_account_details(account_number_param TEXT) 
+CREATE OR REPLACE FUNCTION get_account_details_by_account_number(account_number varchar) 
 RETURNS TABLE (
-    account_number TEXT,
-    main_balance NUMERIC,
-    loans NUMERIC,
-    loans_interest NUMERIC,
-    date TIMESTAMP
+    account_number varchar,
+    main_balance double precision,
+    loans double precision,
+    loans_interest double precision,
+    date TIMESTAMP WITHOUT TIME ZONE
 ) AS $$
 BEGIN
     RETURN QUERY 
@@ -23,6 +23,6 @@ BEGIN
     JOIN
         "user" ON "account".id_user = "user".id
     WHERE
-        "account".account_number = account_number_param;
+        "account".account_number = account_number;
 END;
 $$ LANGUAGE plpgsql;
