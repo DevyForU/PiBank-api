@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION get_account_details_by_account_number(account_number varchar) 
+CREATE OR REPLACE FUNCTION get_details_by_account_number(account_number varchar) 
 RETURNS TABLE (
     account_number varchar,
     main_balance double precision,
