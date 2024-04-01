@@ -18,13 +18,14 @@ BEGIN
         bh.main_balance AS solde
     FROM
         "transfer" tr
-    INNER JOIN "transaction" t ON tr.id = t.id_transfer
-                            AND (t.id_account = account_number OR tr.id_sender = account_number OR tr.id_receiver = account_number)
+    INNER JOIN
+        "transaction" t ON tr.id = t.id_transfer
 
     INNER JOIN
         "balance_history" bh ON t.date >= bh.date AND bh.id_account = account_number
     WHERE
-        t.id_account = account_number
+        tr.id_sender = account_number or
+        tr.id_receiver = account_number
     ORDER BY
         t.date DESC;
 END;
