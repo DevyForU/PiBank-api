@@ -65,8 +65,8 @@ public class AccountDAO implements CrudRepository<Account> {
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, toSave.getAccountNumber());
-            statement.setString(4, toSave.getUser().getId());
-            statement.setString(5, toSave.getBank().getId());
+            statement.setString(2, toSave.getUser().getId());
+            statement.setString(3, toSave.getBank().getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -177,6 +177,25 @@ public class AccountDAO implements CrudRepository<Account> {
         } catch (SQLException e) {
             System.out.println("Balance of the account can't be updated : " + e.getMessage());
         }
+    }
+
+    public double getBalanceByAccountNumber(String account_number) {
+        String sql = """
+                Select main_balance from "account" where account_number=? ; 
+                """;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, account_number);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getDouble("main_balance");
+            } else {
+                throw new RuntimeException("Account not found with account number: " + account_number);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

@@ -37,7 +37,7 @@ public class AccountController {
 
     @GetMapping("/{accountNumber}")
     public ResponseEntity<Account> getById(@PathVariable String accountNumber) {
-        Account account = service.getById(accountNumber);
+        Account account = service.getByAccountNumber(accountNumber);
         if (account != null) {
             return new ResponseEntity<>(account, HttpStatus.OK);
         } else {
@@ -45,15 +45,47 @@ public class AccountController {
         }
 
     }
-    @PostMapping("/{accountNumber}/withdraw")
-    public ResponseEntity<String> makeWithdrawal (@PathVariable String accountNumber,@RequestParam(name="amount") double amount){
-        try {
-            service.makeWithdrawal(accountNumber, amount);
-            return ResponseEntity.ok("Withdrawal successful.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient funds to make the withdrawal.");
+
+    @GetMapping("/{accountNumber}/balance")
+    public ResponseEntity<Double> getBalanceByAccountNumber(@PathVariable String accountNumber) {
+        Account account = service.getByAccountNumber(accountNumber);
+        double balance = service.getBalanceByAccountNumber(accountNumber);
+        if (account != null) {
+            return new ResponseEntity<>(balance, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/{accountNumber}/withdrawal")
+    public ResponseEntity<String> makeWithdrawal(@PathVariable String accountNumber, @RequestParam(name = "amount") double amount) {
+        try {
+            double balance = service.getBalanceByAccountNumber(accountNumber);
+            if (amount > balance) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient funds to make the withdrawal.");
+            } else {
+                service.makeWithdrawal(accountNumber, amount);
+                return ResponseEntity.ok("Withdrawal successful.");
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Withdrawal unsuccessfully.");
+        }
+    }
+    @PostMapping("/credit")
+    public ResponseEntity<String> creditAccount(
+            @RequestParam(name = "accountNumber") String accountNumber,
+            @RequestParam(name = "amount") double amount
+    ) {
+        try {
+            service.creditAnAccount(accountNumber, amount);
+            return ResponseEntity.ok("Credit successful.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while crediting the account.");
+        }
+    }
+
     @PostMapping("/performTransfer")
     public ResponseEntity<String> performTransfer(@RequestBody Transfer transfer) {
         try {
