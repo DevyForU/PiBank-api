@@ -43,4 +43,18 @@ public class UserController {
         }
 
     }
+
+    @PutMapping()
+    public ResponseEntity<String> updateNetMonthSalaryByName(
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam double netMonthSalary) {
+
+        try {
+            service.updateNetMonthSalaryByName(firstName, lastName, netMonthSalary);
+            return ResponseEntity.ok("Salary successfully updated");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update salary");
+        }
+    }
 }
