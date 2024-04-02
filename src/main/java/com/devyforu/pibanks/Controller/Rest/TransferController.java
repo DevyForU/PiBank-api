@@ -52,7 +52,7 @@ public class TransferController {
     }
 
     @GetMapping("/amounts/category")
-    public ResponseEntity<CategoryTotalAmounts> getAmountCategoryBetweenDates(Date startDate, Date endDate) {
+    public ResponseEntity<CategoryTotalAmounts> getAmountCategoryBetweenDates(@RequestParam Date startDate,@RequestParam Date endDate) {
         CategoryTotalAmounts totalAmounts = categoryService.getAmountCategoryBetweenDates(startDate, endDate);
         if (totalAmounts != null) {
             return new ResponseEntity<>(totalAmounts, HttpStatus.OK);
@@ -62,7 +62,7 @@ public class TransferController {
     }
 
     @GetMapping("/financial/summary")
-    public ResponseEntity<FinancialSummary> getFinancialSummaryBetweenDates(Date startDate, Date endDate) {
+    public ResponseEntity<FinancialSummary> getFinancialSummaryBetweenDates(@RequestParam Date startDate,@RequestParam Date endDate) {
         FinancialSummary summary = financialService.getFinancialSummaryBetweenDates(startDate, endDate);
         if (summary != null) {
             return new ResponseEntity<>(summary, HttpStatus.OK);
