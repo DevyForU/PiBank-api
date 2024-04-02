@@ -1,6 +1,7 @@
 package com.devyforu.pibanks.Repository;
 
 import com.devyforu.pibanks.Model.Category;
+import com.devyforu.pibanks.Model.CategoryType;
 import com.devyforu.pibanks.Model.TransactionType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -30,7 +31,7 @@ public class CategoryDAO implements CrudRepository<Category> {
                 Category category = new Category(
                         resultSet.getString("id"),
                         resultSet.getString("name"),
-                        (TransactionType) resultSet.getObject("type")
+                        (CategoryType) resultSet.getObject("type")
                 );
                 categoryList.add(category);
 
@@ -89,7 +90,7 @@ public class CategoryDAO implements CrudRepository<Category> {
                 Category category = new Category();
                 category.setId(resultSet.getString("id"));
                 category.setName(resultSet.getString("name"));
-                category.setType((TransactionType) resultSet.getObject("type"));
+                category.setType((CategoryType) resultSet.getObject("type"));
                 return category;
             }
         } catch (SQLException e) {
