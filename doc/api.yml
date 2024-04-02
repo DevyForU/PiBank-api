@@ -907,6 +907,8 @@ paths:
           $ref: '#/components/responses/500'
   /user:
     get:
+      tags:
+        - "User"
       summary: "GET user"
       operationId: "findAllUser"
       responses:
@@ -929,6 +931,8 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     post:
+      tags:
+        - "User"
       summary: "POST user"
       operationId: "saveUser"
       requestBody:
@@ -955,6 +959,8 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     put:
+      tags:
+        - "User"
       summary: "PUT user"
       operationId: "updateNetMonthSalaryByName"
       parameters:
@@ -993,6 +999,8 @@ paths:
           $ref: '#/components/responses/500'
   /user/{id}:
     delete:
+      tags:
+        - "User"
       summary: "DELETE user/{id}"
       operationId: "deleteUserById"
       parameters:
@@ -1019,6 +1027,8 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     get:
+      tags:
+        - "User"
       summary: "GET user/{id}"
       operationId: "getUserById"
       parameters:
