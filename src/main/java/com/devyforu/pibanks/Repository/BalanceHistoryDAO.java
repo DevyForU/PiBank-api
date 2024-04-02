@@ -28,7 +28,7 @@ public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String id_account = resultSet.getString("id_account");
-                Account account= accountDAO.getById(id_account);
+                Account account = accountDAO.getById(id_account);
                 BalanceHistory balanceHistory = new BalanceHistory(
                         resultSet.getString("id"),
                         resultSet.getDouble("main_balance"),
@@ -91,7 +91,7 @@ public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
 
             if (resultSet.next()) {
                 String id_account = resultSet.getString("id_account");
-                Account account= accountDAO.getById(id_account);
+                Account account = accountDAO.getById(id_account);
                 BalanceHistory balanceHistory = new BalanceHistory();
                 balanceHistory.setId(resultSet.getString("id"));
                 balanceHistory.setMainBalance(resultSet.getDouble("main_balance"));
@@ -103,30 +103,35 @@ public class BalanceHistoryDAO implements CrudRepository<BalanceHistory> {
                 return balanceHistory;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new RuntimeException();
         }
         return null;
     }
-//    //public BalanceHistory getAccountBalanceHistoryByAccountNumber(String accountNumber){
-//
-//        //NEED A SQL FUNCTION
-//    String sql= """
-////                SELECT
-////                    "account".account_number,
-////                    "balance_history".main_balance,
-////                    "account".loans,
-////                    "account".loans_interest,
-////                    "balance_history".date
-////                FROM
-////                    "balance_history"
-////                JOIN
-////                    "account" ON balance_history.id_account = "account".id
-////                JOIN
-////                    "bank" ON account.id_bank ="bank".id
-////                JOIN
-////                    "user" ON "account".id_user = "user".id
-////
-////                WHERE "account".account_number='ACC001';
-////                """;
-//    }
+
+    public BalanceHistory getAccountBalanceHistoryByAccountNumber(String accountNumber) {
+        String query = """
+                Select * from get_details_by_account_number(?);
+                """;
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, accountNumber);
+
+            ResultSet resultSet = statement.executeQuery();
+            BalanceHistory balanceHistory = new BalanceHistory();
+            while (resultSet.next()) {
+                balanceHistory.getAccount().setAccountNumber(resultSet.getString("account_number"));
+
+                balanceHistory.setMainBalance(resultSet.getDouble("main_balance"));
+                balanceHistory.setLoans(resultSet.getDouble("loans"));
+                balanceHistory.setLoansInterest(resultSet.getDouble("loans_interest"));
+                balanceHistory.setDate(resultSet.getDate("date").toInstant());
+
+            }
+        } catch (SQLException e) {
+            throw  new RuntimeException();
+        }
+
+        return null;
+    }
+
+
 }
