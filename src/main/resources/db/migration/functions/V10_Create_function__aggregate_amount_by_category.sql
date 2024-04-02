@@ -1,4 +1,3 @@
- 
 CREATE OR REPLACE FUNCTION aggregate_amount_by_category(start_date DATE, end_date DATE)
 RETURNS TABLE (
     category_name VARCHAR,

@@ -1,5 +1,4 @@
- 
-CREATE OR REPLACE FUNCTION aggregate_expenses_and_income(start_date DATE, end_date DATE)
+ CREATE OR REPLACE FUNCTION aggregate_expenses_and_income(start_date DATE, end_date DATE)
 RETURNS TABLE (
     year INT,
     month INT,
