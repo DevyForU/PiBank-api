@@ -1,0 +1,936 @@
+{
+	"info": {
+		"_postman_id": "454ecb2f-0b55-4d3a-8189-14c3bdcd4781",
+		"name": "Pibank Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28559239"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Get All Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/account",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Account By Account Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/account/:accountNumber",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"account",
+								":accountNumber"
+							],
+							"variable": [
+								{
+									"key": "accountNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Balance By Account Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/account/:accountNumber/balance",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"account",
+								":accountNumber",
+								"balance"
+							],
+							"variable": [
+								{
+									"key": "accountNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Statement Account By Account Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/account/:accountNumber/statement",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"account",
+								":accountNumber",
+								"statement"
+							],
+							"variable": [
+								{
+									"key": "accountNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save New Account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"id\": \"1\",\n   \"accountNumber\": \"00001\",\n   \"mainBalance\": 500000.00,\n   \"loans\": 0.00,\n   \"interestLoans\": 0.00,\n   \"creditAllow\": 500.00,\n   \"overDraftLimit\": false,\n   \"interestRateBefore7Days\": 0.01,\n   \"interestRateAfter7Days\": 0.02,\n   \"user\": {\n       \"id\": \"1\",\n       \"firstName\": \"John\",\n       \"lastName\": \"Doe\",\n       \"birthdayDate\": \"1990-01-01T00:00:00Z\",\n       \"netMonthSalary\": 1000000.00\n   },\n   \"bank\": {\n       \"id\": \"1\",\n       \"name\": \"BMOI\",\n       \"reference\": \"0004\"\n   }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootUrl}}/account",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make Withdrawal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/account/:accountNumber/withdrawal?amount=10000",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"account",
+								":accountNumber",
+								"withdrawal"
+							],
+							"query": [
+								{
+									"key": "amount",
+									"value": "10000"
+								}
+							],
+							"variable": [
+								{
+									"key": "accountNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Credit Account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/account/credit?accountNumber=1&amount=20000",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"account",
+								"credit"
+							],
+							"query": [
+								{
+									"key": "accountNumber",
+									"value": "1"
+								},
+								{
+									"key": "amount",
+									"value": "20000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Perform Transfer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"id\": \"1\",\n   \"reference\": \"REF123\",\n   \"transferReason\": \"Salary\",\n   \"amount\": 800000.00,\n   \"label\": \"Transfer from John Doe to Jane Doe\",\n   \"effectiveDate\": \"2024-04-02T00:00:00Z\",\n   \"registrationDate\": \"2024-04-01T00:00:00Z\",\n   \"isCanceled\": false,\n   \"accountSender\": {\n        \"id\": \"1\",\n        \"accountNumber\": \"00001\",\n        \"mainBalance\": 500000.00,\n        \"loans\": 0.00,\n        \"interestLoans\": 0.00,\n        \"creditAllow\": 500.00,\n        \"overDraftLimit\": false,\n        \"interestRateBefore7Days\": 0.01,\n        \"interestRateAfter7Days\": 0.02,\n        \"user\": {\n            \"id\": \"1\",\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\",\n            \"birthdayDate\": \"1990-01-01T00:00:00Z\",\n            \"netMonthSalary\": 1000000.00\n        },\n        \"bank\": {\n            \"id\": \"1\",\n            \"name\": \"BMOI\",\n            \"reference\": \"0004\"\n        }\n   },\n   \"accountReceiver\": {\n        \"id\": \"2\",\n        \"accountNumber\": \"00002\",\n        \"mainBalance\": 200000.00,\n        \"loans\": 0.00,\n        \"interestLoans\": 0.00,\n        \"creditAllow\": 10000.00,\n        \"overDraftLimit\": false,\n        \"interestRateBefore7Days\": 0.01,\n        \"interestRateAfter7Days\": 0.02,\n        \"user\": {\n            \"id\": \"2\",\n            \"firstName\": \"Jane\",\n            \"lastName\": \"Doe\",\n            \"birthdayDate\": \"2000-05-04T00:00:00Z\",\n            \"netMonthSalary\": 800000.00\n        },\n        \"bank\": {\n            \"id\": \"1\",\n            \"name\": \"BMOI\",\n            \"reference\": \"0004\"\n        }\n   }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootUrl}}/account/performTransfer",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"account",
+								"performTransfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Account By Account Number",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/account/:accountNumber",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"account",
+								":accountNumber"
+							],
+							"variable": [
+								{
+									"key": "accountNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Balance",
+			"item": [
+				{
+					"name": "Get All Balance Histories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/balance",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Balance History By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/balance/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"balance",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Account Balance History By Account Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/balance/history/:accountNumber",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"balance",
+								"history",
+								":accountNumber"
+							],
+							"variable": [
+								{
+									"key": "accountNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save New Balance History",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"id\": \"1\",\n   \"mainBalance\": 30000.00,\n   \"loans\": 500.00,\n   \"loansInterest\": 25.00,\n   \"date\": \"2024-04-02T00:00:00Z\",\n   \"account\": {\n        \"id\": \"1\",\n        \"accountNumber\": \"00001\",\n        \"mainBalance\": 500000.00,\n        \"loans\": 0.00,\n        \"interestLoans\": 0.00,\n        \"creditAllow\": 500.00,\n        \"overDraftLimit\": false,\n        \"interestRateBefore7Days\": 0.01,\n        \"interestRateAfter7Days\": 0.02,\n        \"user\": {\n            \"id\": \"1\",\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\",\n            \"birthdayDate\": \"1990-01-01T00:00:00Z\",\n            \"netMonthSalary\": 1000000.00\n        },\n        \"bank\": {\n            \"id\": \"1\",\n            \"name\": \"BMOI\",\n            \"reference\": \"0004\"\n        }\n   }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootUrl}}/balance",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Balance History By ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/balance/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"balance",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bank",
+			"item": [
+				{
+					"name": "Get All Banks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/bank",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"bank"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save New Bank",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"1\",\n   \"name\": \"BMOI\",\n   \"reference\": \"0004\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootUrl}}/bank",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"bank"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Bank By ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/bank/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"bank",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Bank By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/bank/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"bank",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/category",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/category/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save New Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"id\": \"1\",\n   \"name\": \"Salary\",\n   \"type\": \"INCOME\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootUrl}}/category",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/category/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Get All Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/transaction",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/transaction/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"transaction",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save New Transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"id\": \"1\",\n   \"Transfer\": {\n       \"id\": \"1\",\n       \"reference\": \"REF123\",\n       \"transferReason\": \"Salary\",\n       \"amount\": 800000.00,\n       \"label\": \"Transfer from John Doe to Jane Doe\",\n       \"effectiveDate\": \"2024-04-02T00:00:00Z\",\n       \"registrationDate\": \"2024-04-01T00:00:00Z\",\n       \"isCanceled\": false,\n       \"accountSender\": {\n            \"id\": \"1\",\n            \"accountNumber\": \"00001\",\n            \"mainBalance\": 500000.00,\n            \"loans\": 0.00,\n            \"interestLoans\": 0.00,\n            \"creditAllow\": 500.00,\n            \"overDraftLimit\": false,\n            \"interestRateBefore7Days\": 0.01,\n            \"interestRateAfter7Days\": 0.02,\n            \"user\": {\n                \"id\": \"1\",\n                \"firstName\": \"John\",\n                \"lastName\": \"Doe\",\n                \"birthdayDate\": \"1990-01-01T00:00:00Z\",\n                \"netMonthSalary\": 1000000.00\n            },\n            \"bank\": {\n                \"id\": \"1\",\n                \"name\": \"BMOI\",\n                \"reference\": \"0004\"\n            }\n        }\n        \"accountReceiver\": {\n            \"id\": \"2\",\n            \"accountNumber\": \"00002\",\n            \"mainBalance\": 200000.00,\n            \"loans\": 0.00,\n            \"interestLoans\": 0.00,\n            \"creditAllow\": 10000.00,\n            \"overDraftLimit\": false,\n            \"interestRateBefore7Days\": 0.01,\n            \"interestRateAfter7Days\": 0.02,\n            \"user\": {\n                \"id\": \"2\",\n                \"firstName\": \"Jane\",\n                \"lastName\": \"Doe\",\n                \"birthdayDate\": \"2000-05-04T00:00:00Z\",\n                \"netMonthSalary\": 800000.00\n            },\n            \"bank\": {\n                \"id\": \"1\",\n                \"name\": \"BMOI\",\n                \"reference\": \"0004\"\n            }    \n   \t}\n   },\t\n   \"account\": {\n       \"id\": \"1\",\n        \"accountNumber\": \"00001\",\n        \"mainBalance\": 500000.00,\n        \"loans\": 0.00,\n        \"interestLoans\": 0.00,\n        \"creditAllow\": 500.00,\n        \"overDraftLimit\": false,\n        \"interestRateBefore7Days\": 0.01,\n        \"interestRateAfter7Days\": 0.02,\n        \"user\": {\n            \"id\": \"1\",\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\",\n            \"birthdayDate\": \"1990-01-01T00:00:00Z\",\n            \"netMonthSalary\": 1000000.00\n        },\n        \"bank\": {\n            \"id\": \"1\",\n            \"name\": \"BMOI\",\n            \"reference\": \"0004\"\n        }\n   },\n   \"category\": {\n       \"id\": \"1\",\n        \"name\": \"Salary\",\n        \"type\": \"INCOME\"\n   },\n   \"type\": \"CREDIT\",\n   \"date\": \"2024-04-02T00:00:00Z\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootUrl}}/transaction",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Transaction by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/transaction/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"transaction",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transfer",
+			"item": [
+				{
+					"name": "Get All Transfers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/transfer",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfer by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/transfer/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"transfer",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save New Transfer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"id\": \"1\",\n   \"reference\": \"REF123\",\n   \"transferReason\": \"Salary\",\n   \"amount\": 800000.00,\n   \"label\": \"Transfer from John Doe to Jane Doe\",\n   \"effectiveDate\": \"2024-04-02T00:00:00Z\",\n   \"registrationDate\": \"2024-04-01T00:00:00Z\",\n   \"isCanceled\": false,\n   \"accountSender\": {\n        \"id\": \"1\",\n        \"accountNumber\": \"00001\",\n        \"mainBalance\": 500000.00,\n        \"loans\": 0.00,\n        \"interestLoans\": 0.00,\n        \"creditAllow\": 500.00,\n        \"overDraftLimit\": false,\n        \"interestRateBefore7Days\": 0.01,\n        \"interestRateAfter7Days\": 0.02,\n        \"user\": {\n            \"id\": \"1\",\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\",\n            \"birthdayDate\": \"1990-01-01T00:00:00Z\",\n            \"netMonthSalary\": 1000000.00\n        },\n        \"bank\": {\n            \"id\": \"1\",\n            \"name\": \"BMOI\",\n            \"reference\": \"0004\"\n        }\n    },\n    \"accountReceiver\": {\n        \"id\": \"2\",\n        \"accountNumber\": \"00002\",\n        \"mainBalance\": 200000.00,\n        \"loans\": 0.00,\n        \"interestLoans\": 0.00,\n        \"creditAllow\": 10000.00,\n        \"overDraftLimit\": false,\n        \"interestRateBefore7Days\": 0.01,\n        \"interestRateAfter7Days\": 0.02,\n        \"user\": {\n            \"id\": \"2\",\n            \"firstName\": \"Jane\",\n            \"lastName\": \"Doe\",\n            \"birthdayDate\": \"2000-05-04T00:00:00Z\",\n            \"netMonthSalary\": 800000.00\n        },\n        \"bank\": {\n            \"id\": \"1\",\n            \"name\": \"BMOI\",\n            \"reference\": \"0004\"\n        }\n   }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootUrl}}/transfer",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Transfer by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/transfer/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"transfer",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Amount Category Between Dates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/transfer?startDate=2024-02-01&endDate=2024-04-03",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"transfer"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-02-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-04-03"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Financial Summary Between Dates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/transfer/financial/summary?startDate=2024-01-01&endDate=2024-04-03",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"transfer",
+								"financial",
+								"summary"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-04-03"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/user",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/user/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save New User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"1\",\n   \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n   \"birthdayDate\": \"1990-01-01T00:00:00Z\",\n   \"netMonthSalary\": 1000000.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{springBootUrl}}/user",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Net Month Salary by Name",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/user?firstName=John&lastName=Doe&netMonthSalary=1200000",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "John"
+								},
+								{
+									"key": "lastName",
+									"value": "Doe"
+								},
+								{
+									"key": "netMonthSalary",
+									"value": "1200000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{springBootUrl}}/user/:id",
+							"host": [
+								"{{springBootUrl}}"
+							],
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "account",
+			"value": "\"account\": {\n        \"id\": \"1\",\n        \"accountNumber\": \"00001\",\n        \"mainBalance\": 500000.00,\n        \"loans\": 0.00,\n        \"interestLoans\": 0.00,\n        \"creditAllow\": 500.00,\n        \"overDraftLimit\": false,\n        \"interestRateBefore7Days\": 0.01,\n        \"interestRateAfter7Days\": 0.02,\n        \"user\": {\n            \"id\": \"1\",\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\",\n            \"birthdayDate\": \"1990-01-01T00:00:00Z\",\n            \"netMonthSalary\": 1000000.00\n        },\n        \"bank\": {\n            \"id\": \"1\",\n            \"name\": \"BMOI\",\n            \"reference\": \"0004\"\n        }\n   }"
+		}
+	]
+}
