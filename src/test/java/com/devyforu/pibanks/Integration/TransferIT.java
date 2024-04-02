@@ -162,26 +162,29 @@ public class TransferIT {
 
     @Test
     public void testGetAmountCategoryBetweenDates() throws Exception {
+        Date startDate = Date.valueOf("2024-01-01");
+        Date endDate = Date.valueOf("2024-01-31");
         CategoryTotalAmounts categoryTotalAmounts = new CategoryTotalAmounts("Food", 500.0);
-        when(categoryService.getAmountCategoryBetweenDates(any(Date.class), any(Date.class))).thenReturn(categoryTotalAmounts);
+        when(categoryService.getAmountCategoryBetweenDates(startDate, endDate)).thenReturn(categoryTotalAmounts);
 
         mockMvc.perform(get("/transfer/amounts/category")
-                        .param("startDate", "2024-01-01")
-                        .param("endDate", "2024-01-31")
+                        .param("startDate", startDate.toString())
+                        .param("endDate", endDate.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.category_name").value("Food"))
                 .andExpect(jsonPath("$.total_amount").value(500.0));
     }
-
     @Test
     public void testGetFinancialSummaryBetweenDates() throws Exception {
+        Date startDate = Date.valueOf("2024-01-01");
+        Date endDate = Date.valueOf("2024-01-31");
         FinancialSummary financialSummary = new FinancialSummary(2024, 1, 1000.0, 2000.0);
-        when(financialService.getFinancialSummaryBetweenDates(any(Date.class), any(Date.class))).thenReturn(financialSummary);
+        when(financialService.getFinancialSummaryBetweenDates(startDate, endDate)).thenReturn(financialSummary);
 
         mockMvc.perform(get("/transfer/financial/summary")
-                        .param("startDate", "2024-01-01")
-                        .param("endDate", "2024-01-31")
+                        .param("startDate", startDate.toString())
+                        .param("endDate", endDate.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.year").value(2024))
