@@ -72,7 +72,7 @@ public class TransferDAO implements CrudRepository<Transfer> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }
@@ -122,7 +122,7 @@ public class TransferDAO implements CrudRepository<Transfer> {
 
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }

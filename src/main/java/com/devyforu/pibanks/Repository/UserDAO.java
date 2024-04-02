@@ -60,7 +60,7 @@ public class UserDAO implements CrudRepository<User> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }
@@ -99,7 +99,7 @@ public class UserDAO implements CrudRepository<User> {
                 return this.getById(id);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }
@@ -123,7 +123,7 @@ public class UserDAO implements CrudRepository<User> {
                 );
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }

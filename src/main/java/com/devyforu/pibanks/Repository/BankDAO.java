@@ -89,7 +89,7 @@ public class BankDAO implements CrudRepository<Bank> {
                 return bank;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }
