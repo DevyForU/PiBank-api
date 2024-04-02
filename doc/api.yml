@@ -3,7 +3,7 @@ info:
   title: PiBank API
   version: 'latest'
 servers:
-  - url: https://api.pibank.test
+  - url: https://api.pibank
 tags:
   - name: User
   - name: Account
@@ -18,21 +18,31 @@ paths:
       tags:
         - "Account"
       summary: "GET account"
-      operationId: "findAll"
+      operationId: "findAllAccount"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Account"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
     post:
       tags:
         - "Account"
       summary: "POST account"
-      operationId: "save"
+      operationId: "saveAccount"
       requestBody:
         content:
           application/json:
@@ -40,12 +50,22 @@ paths:
               $ref: "#/components/schemas/Account"
         required: true
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Account"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /account/{accountNumber}:
     delete:
       tags:
@@ -59,12 +79,22 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Void"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
     get:
       tags:
         - "Account"
@@ -77,12 +107,22 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Account"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /account/{accountNumber}/balance:
     get:
       tags:
@@ -96,10 +136,10 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 type: "number"
                 format: "double"
@@ -122,12 +162,22 @@ paths:
             type: "number"
             format: "double"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 type: "string"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /account/credit:
     post:
       tags:
@@ -147,12 +197,22 @@ paths:
             type: "number"
             format: "double"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 type: "string"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /account/performTransfer:
     post:
       tags:
@@ -166,12 +226,22 @@ paths:
               $ref: "#/components/schemas/Transfer"
         required: true
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 type: "string"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /account/{accountNumber}/statement:
     get:
       tags:
@@ -185,13 +255,22 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/AccountStatement"
-
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 
 
   /bank:
@@ -199,21 +278,31 @@ paths:
       tags:
         - "Bank"
       summary: "GET bank"
-      operationId: "findAll"
+      operationId: "findAllBank"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Bank"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
     post:
       tags:
         - "Bank"
       summary: "POST bank"
-      operationId: "save"
+      operationId: "saveBank"
       requestBody:
         content:
           application/json:
@@ -221,18 +310,28 @@ paths:
               $ref: "#/components/schemas/Bank"
         required: true
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Bank"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /bank/{id}:
     delete:
       tags:
         - "Bank"
       summary: "DELETE bank by id"
-      operationId: "deleteById"
+      operationId: "deleteBankById"
       parameters:
         - name: "id"
           in: "path"
@@ -240,17 +339,27 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Void"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
     get:
       tags:
         - "Bank"
       summary: "GET bank by id"
-      operationId: "getById"
+      operationId: "getBankById"
       parameters:
         - name: "id"
           in: "path"
@@ -258,12 +367,22 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Bank"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 
 
   /category:
@@ -271,21 +390,31 @@ paths:
       tags:
         - "Category"
       summary: "GET category"
-      operationId: "findAll"
+      operationId: "findAllCategory"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Category"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
     post:
       tags:
         - "Category"
       summary: "POST category"
-      operationId: "save"
+      operationId: "saveCategory"
       requestBody:
         content:
           application/json:
@@ -293,18 +422,28 @@ paths:
               $ref: "#/components/schemas/Category"
         required: true
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Category"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /category/{id}:
     delete:
       tags:
         - "Category"
       summary: "DELETE category by id"
-      operationId: "deleteById"
+      operationId: "deleteCategoryById"
       parameters:
         - name: "id"
           in: "path"
@@ -312,17 +451,27 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Void"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
     get:
       tags:
         - "Category"
       summary: "GET category by id"
-      operationId: "getById"
+      operationId: "getCategoryById"
       parameters:
         - name: "id"
           in: "path"
@@ -330,32 +479,52 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Category"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /balance:
     get:
       tags:
         - "Balance"
       summary: "GET balance"
-      operationId: "findAll"
+      operationId: "findAllBalance"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/BalanceHistory"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
     post:
       tags:
         - "Balance"
       summary: "POST balance"
-      operationId: "save"
+      operationId: "saveBalance"
       requestBody:
         content:
           application/json:
@@ -363,19 +532,29 @@ paths:
               $ref: "#/components/schemas/BalanceHistory"
         required: true
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/BalanceHistory"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 
   /balance/{id}:
     delete:
       tags:
         - "Balance"
       summary: "DELETE balance by id"
-      operationId: "deleteById"
+      operationId: "deleteBalanceById"
       parameters:
         - name: "id"
           in: "path"
@@ -383,17 +562,27 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Void"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
     get:
       tags:
         - Balance
       summary: "GET balance by id"
-      operationId: "getById"
+      operationId: "getBalanceById"
       parameters:
         - name: "id"
           in: "path"
@@ -401,12 +590,22 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/BalanceHistory"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /balance/history/{accountNumber}:
     get:
       tags:
@@ -420,13 +619,22 @@ paths:
           schema:
             type: "string"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/BalanceHistory"
-
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 
 
 
@@ -435,213 +643,18 @@ paths:
       tags:
         - "Transaction"
       summary: "GET transaction"
-      operationId: "findAll"
+      operationId: "findAllTransaction"
       responses:
-        "200":
+        '200':
           description: "OK"
           content:
-            '*/*':
+            application/json:
               schema:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Transaction"
-    post:
-      tags:
-        - "Transaction"
-      summary: "POST transaction"
-      operationId: "save"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Transaction"
-        required: true
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Transaction"
-  /transaction/{id}:
-    delete:
-      tags:
-        - "Transaction"
-      summary: "DELETE transaction/{id}"
-      operationId: "deleteById"
-      parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Void"
-    get:
-      tags:
-        - "Transaction"
-      summary: "GET transaction/{id}"
-      operationId: "getById"
-      parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Transaction"
-
-  /transfer:
-    get:
-      tags:
-        - "Transfer"
-      summary: "GET transfer"
-      operationId: "findAll"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/Transfer"
-    post:
-      tags:
-        - "Transfer"
-      summary: "POST transfer"
-      operationId: "save"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Transfer"
-        required: true
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Transfer"
-  /transfer/{id}:
-    delete:
-      tags:
-        - "Transfer"
-      summary: "DELETE transfer/{id}"
-      operationId: "deleteById"
-      parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Void"
-    get:
-      tags:
-        - "Transfer"
-      summary: "GET transfer/{id}"
-      operationId: "getById"
-      parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Transfer"
-  /transfer/amounts/category:
-    get:
-      tags:
-        - "Transfer"
-      summary: "GET transfer/amounts/category"
-      operationId: "getAmountCategoryBetweenDates"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/CategoryTotalAmounts"
-  /transfer/financial/summary:
-    get:
-      tags:
-        - "Transfer"
-      summary: "GET transfer/financial/summary"
-      operationId: "getFinancialSummaryBetweenDates"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/FinancialSummary"
-
-  /user:
-    get:
-      tags:
-        - "User"
-      summary: "get all user"
-      operationId: getAllUser
-      responses:
-        '200':
-          description: successfully retrieved Users
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/User"
         '400':
-          $ref: "#/components/responses/400"
-        '500':
-          $ref: "#/components/responses/500"
-    put:
-      tags:
-        - "User"
-      summary: create or update a user
-      operationId: CrupdateUser
-      requestBody:
-        description: user to crupdate
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              items:
-                $ref: "#/components/schemas/User"
-      responses:
-        '200':
-          description: successfully crupdate Users
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  $ref: "#/components/schemas/User"
-        '400':
-          $ref: "#/components/responses/400"
+          $ref: '#/components/responses/400'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -649,26 +662,288 @@ paths:
         '429':
           $ref: '#/components/responses/429'
         '500':
-          $ref: "#/components/responses/500"
-  /user/{id}:
-    get:
+          $ref: '#/components/responses/500'
+    post:
       tags:
-        - "User"
-      summary: "get user by  id"
-      operationId: getUserById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
+        - "Transaction"
+      summary: "POST transaction"
+      operationId: "saveTransaction"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Transaction"
+        required: true
       responses:
         '200':
-          description: The identified user
+          description: "OK"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/Transaction"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /transaction/{id}:
+    delete:
+      tags:
+        - "Transaction"
+      summary: "DELETE transaction/{id}"
+      operationId: "deleteTransactionById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Void"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      tags:
+        - "Transaction"
+      summary: "GET transaction/{id}"
+      operationId: "getTransactionById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /transfer:
+    get:
+      tags:
+        - "Transfer"
+      summary: "GET transfer"
+      operationId: "findAllTransfer"
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Transfer"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - "Transfer"
+      summary: "POST transfer"
+      operationId: "saveTransfer"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Transfer"
+        required: true
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transfer"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /transfer/{id}:
+    delete:
+      tags:
+        - "Transfer"
+      summary: "DELETE transfer/{id}"
+      operationId: "deleteTransferById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Void"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      tags:
+        - "Transfer"
+      summary: "GET transfer/{id}"
+      operationId: "getTransferById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transfer"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /transfer/amounts/category:
+    get:
+      tags:
+        - "Transfer"
+      summary: "GET transfer/amounts/category"
+      operationId: "getAmountCategoryBetweenDates"
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryTotalAmounts"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /transfer/financial/summary:
+    get:
+      tags:
+        - "Transfer"
+      summary: "GET transfer/financial/summary"
+      operationId: "getFinancialSummaryBetweenDates"
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FinancialSummary"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /user:
+    get:
+      summary: "GET user"
+      operationId: "findAllUser"
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/User"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: "POST user"
+      operationId: "saveUser"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -680,36 +955,34 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     put:
-      tags:
-        - "User"
-      summary: update a user by  id
-      operationId: updateUserById
+      summary: "PUT user"
+      operationId: "updateNetMonthSalaryByName"
       parameters:
-        - name: id
-          in: path
+        - name: "firstName"
+          in: "query"
           required: true
           schema:
-            type: string
-      requestBody:
-        description: user to update
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              items:
-                $ref: "#/components/schemas/User"
+            type: "string"
+        - name: "lastName"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+        - name: "netMonthSalary"
+          in: "query"
+          required: true
+          schema:
+            type: "number"
+            format: "double"
       responses:
         '200':
-          description: successfully crupdate Users
+          description: "OK"
           content:
             application/json:
               schema:
-                type: object
-                items:
-                  $ref: "#/components/schemas/User"
+                type: "string"
         '400':
-          $ref: "#/components/responses/400"
+          $ref: '#/components/responses/400'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -717,25 +990,50 @@ paths:
         '429':
           $ref: '#/components/responses/429'
         '500':
-          $ref: "#/components/responses/500"
+          $ref: '#/components/responses/500'
+  /user/{id}:
     delete:
-      tags:
-        - "User"
-      summary: "delete user by  id"
-      operationId: deleteUserById
+      summary: "DELETE user/{id}"
+      operationId: "deleteUserById"
       parameters:
-        - name: id
-          in: path
+        - name: "id"
+          in: "path"
           required: true
           schema:
-            type: string
+            type: "string"
       responses:
         '200':
-          description: The identified user
+          description: "OK"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/Void"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      summary: "GET user/{id}"
+      operationId: "getUserById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
         '400':
           $ref: '#/components/responses/400'
         '403':
