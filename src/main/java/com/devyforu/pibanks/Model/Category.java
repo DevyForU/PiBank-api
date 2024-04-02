@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class Category {
     private String id;
     private String name;
-    private TransactionType type;
+    private CategoryType type;
 }
