@@ -93,7 +93,7 @@ public class CategoryDAO implements CrudRepository<Category> {
                 return category;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }

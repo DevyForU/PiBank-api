@@ -123,7 +123,7 @@ public class AccountDAO implements CrudRepository<Account> {
                 return account;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }
@@ -156,7 +156,7 @@ public class AccountDAO implements CrudRepository<Account> {
                 return account;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }

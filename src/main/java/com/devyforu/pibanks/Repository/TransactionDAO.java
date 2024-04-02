@@ -66,7 +66,7 @@ public class TransactionDAO implements CrudRepository<Transaction> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }
@@ -114,7 +114,7 @@ public class TransactionDAO implements CrudRepository<Transaction> {
 
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }

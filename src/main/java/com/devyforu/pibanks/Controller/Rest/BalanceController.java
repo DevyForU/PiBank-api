@@ -44,4 +44,15 @@ public class BalanceController {
 
     }
 
+    @GetMapping("/history/{accountNumber}")
+    public ResponseEntity<BalanceHistory> getAccountBalanceHistoryByAccountNumber(@PathVariable String accountNumber) {
+        BalanceHistory balance = service.getAccountBalanceHistoryByAccountNumber(accountNumber);
+        if (balance != null) {
+            return new ResponseEntity<>(balance, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 }

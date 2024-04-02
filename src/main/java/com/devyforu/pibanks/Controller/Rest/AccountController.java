@@ -1,8 +1,10 @@
 package com.devyforu.pibanks.Controller.Rest;
 
 import com.devyforu.pibanks.Model.Account;
+import com.devyforu.pibanks.Model.AccountStatement;
 import com.devyforu.pibanks.Model.Transfer;
 import com.devyforu.pibanks.Service.AccountService;
+import com.devyforu.pibanks.Service.AccountStatementService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AccountController {
     private AccountService service;
+    private AccountStatementService statementService;
 
     @GetMapping
     public ResponseEntity<List<Account>> findAll() {
@@ -72,6 +75,7 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Withdrawal unsuccessfully.");
         }
     }
+
     @PostMapping("/credit")
     public ResponseEntity<String> creditAccount(
             @RequestParam(name = "accountNumber") String accountNumber,
@@ -99,6 +103,16 @@ public class AccountController {
             return ResponseEntity.ok("Transfer successful");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Transfer failed: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{accountNumber}/statement")
+    public ResponseEntity<AccountStatement> getStatementAccountByAccountNumber(@PathVariable String accountNumber) {
+        AccountStatement account = statementService.getStatementAccountByAccountNumber(accountNumber);
+        if (account != null) {
+            return new ResponseEntity<>(account, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
