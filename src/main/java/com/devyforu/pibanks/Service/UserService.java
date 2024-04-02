@@ -24,8 +24,8 @@ public class UserService {
         userDAO.deleteById(id);
     }
 
-    public User updateNetMonthSalaryById(String id, double netMonthSalary){
-        return userDAO.updateNetMonthSalaryById(id, netMonthSalary);
+    public void updateNetMonthSalaryByName(String firstName,String lastName, double netMonthSalary){
+        userDAO.updateNetMonthSalaryByName(firstName,lastName, netMonthSalary);
     }
 
     public User getById(String id){

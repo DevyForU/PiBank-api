@@ -83,25 +83,25 @@ public class UserDAO implements CrudRepository<User> {
 
 
 
-    public User updateNetMonthSalaryById(String id, double netMontSalary) {
+    public void updateNetMonthSalaryByName(String firstName,String lastName, double netMonthSalary) {
         String sql = """
                 UPDATE "user"
                 SET net_month_salary=?
-                WHERE id=?
+                WHERE first_name=? AND last_name=? ;
                 """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setDouble(1, netMontSalary);
-            statement.setObject(2, id);
+            statement.setDouble(1, netMonthSalary);
+            statement.setString(2, firstName);
+            statement.setString(3,lastName);
 
             int rowAffected = statement.executeUpdate();
             if (rowAffected > 0) {
-                return this.getById(id);
+                System.out.println("Salary successfully updated");
             }
         } catch (SQLException e) {
             throw new RuntimeException();
         }
-        return null;
     }
 
 
