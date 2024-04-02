@@ -5,16 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Transaction {
-    private String id;
-    private Transfer Transfer;
-    private Account account;
-    private Category category;
-    private TransactionType type;
+@NoArgsConstructor
+public class AccountStatement {
     private Instant date;
-
+    private String reference;
+    private String reason;
+    private double credit;
+    private double debit;
+    private double balance;
 }

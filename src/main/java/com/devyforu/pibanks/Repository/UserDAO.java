@@ -27,8 +27,8 @@ public class UserDAO implements CrudRepository<User> {
             while (resultSet.next()) {
                 userList.add(new User(
                         (String) resultSet.getObject("id"),
-                        (String) resultSet.getObject("firstName"),
-                        (String) resultSet.getObject("lastName"),
+                        (String) resultSet.getObject("first_name"),
+                        (String) resultSet.getObject("last_name"),
                         resultSet.getTimestamp("birthday"),
                         resultSet.getDouble("net_month_salary")
                 ));
@@ -43,9 +43,8 @@ public class UserDAO implements CrudRepository<User> {
     @Override
     public User save(User toSave) {
         String sql = """
-                INSERT INTO "user"(id, firstName, lastName, birthday, net_month_salary) VALUES(?,?,?,?,?) 
-                ON CONFLICT (id) DO UPDATE SET firstName=EXCLUDED.firstName, net_month_salary=EXCLUDED.net_month_salary,
-                lastName=EXCLUDED.lastName, birthday=EXCLUDED.birthday;
+                INSERT INTO "user"
+                (id, first_name, last_name, birthday, net_month_salary) VALUES(?,?,?,?,?) ;
                 """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -61,12 +60,10 @@ public class UserDAO implements CrudRepository<User> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }
-
-    @Override
     public void deleteById(String id) {
         String sql = """
                 DELETE from "user" where id = ?
@@ -86,28 +83,28 @@ public class UserDAO implements CrudRepository<User> {
 
 
 
-    public User updateNetMonthSalaryById(String id, double netMontSalary) {
+    public void updateNetMonthSalaryByName(String firstName,String lastName, double netMonthSalary) {
         String sql = """
                 UPDATE "user"
                 SET net_month_salary=?
-                WHERE id=?
+                WHERE first_name=? AND last_name=? ;
                 """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setDouble(1, netMontSalary);
-            statement.setObject(2, id);
+            statement.setDouble(1, netMonthSalary);
+            statement.setString(2, firstName);
+            statement.setString(3,lastName);
 
             int rowAffected = statement.executeUpdate();
             if (rowAffected > 0) {
-                return this.getById(id);
+                System.out.println("Salary successfully updated");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
-        return null;
     }
 
-    @Override
+
     public User getById(String id) {
         String sql= """
                 Select * from "user" where id = ?
@@ -119,14 +116,14 @@ public class UserDAO implements CrudRepository<User> {
             if (resultSet.next()) {
                 return new User(
                         (String) resultSet.getObject("id"),
-                        (String) resultSet.getObject("firstName"),
-                        (String) resultSet.getObject("lastName"),
+                        (String) resultSet.getObject("first_name"),
+                        (String) resultSet.getObject("last_name"),
                         resultSet.getTimestamp("birthday"),
                         resultSet.getDouble("net_month_salary")
                 );
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         return null;
     }

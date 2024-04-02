@@ -24,9 +24,9 @@ public class TransferService {
          transferDAO.deleteById(id);
     }
 
-    public Transfer updateTransferReasonById(String id, String transferReason){
-        return transferDAO.updateTransferReasonById(id, transferReason);
-    }
+//    public Transfer updateTransferReasonById(String id, String transferReason){
+//        return transferDAO.updateTransferReasonById(id, transferReason);
+//    }
 
     public Transfer getById(String id){
         return transferDAO.getById(id);
