@@ -12,17 +12,24 @@ import java.util.List;
 public class BalanceService {
     private BalanceHistoryDAO balance;
 
-    public List<BalanceHistory> findAll(){
+    public List<BalanceHistory> findAll() {
         return balance.findAll();
     }
-    public BalanceHistory save (BalanceHistory toSave){
+
+    public BalanceHistory save(BalanceHistory toSave) {
         return balance.save(toSave);
     }
-    public void deleteById(String id){
+
+    public void deleteById(String id) {
         balance.deleteById(id);
     }
-    public BalanceHistory getById(String id){
+
+    public BalanceHistory getById(String id) {
         return balance.getById(id);
+    }
+
+    public BalanceHistory getAccountBalanceHistoryByAccountNumber(String accountNumber) {
+        return balance.getAccountBalanceHistoryByAccountNumber(accountNumber);
     }
 
 }
